@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FormCard } from "./FormCard";
 
 const fetchPost = async (page: number) => {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   return [1, 2, 3, 4];
 };

@@ -23,7 +23,7 @@ const Sidebar = () => {
         <div className="flex h-[74px] shrink-0 items-center">
           <a className="flex items-center flex-shrink-0" href="/home">
             <div className=" font-bold text-gray-700 ml-6 text-3xl flex items-center">
-              <svg
+              {/* <svg
                 width="26"
                 height="21"
                 viewBox="0 0 26 21"
@@ -53,8 +53,8 @@ const Sidebar = () => {
                   rx="2.5"
                   fill="#4ade80"
                 ></rect>
-              </svg>
-              <span className="ml-3">Fillout</span>
+              </svg> */}
+              <span className="ml-3">FormTastic</span>
             </div>
           </a>
         </div>

@@ -4,7 +4,7 @@ import SidebarNavItem_skeleton from "./SidebarNavItemSkeleton";
 
 
 const fetchPost = async (page: number) => {
-    await new Promise((resolve) => setTimeout(resolve, 8000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   
     return [1, 2, 3, 4];
   };
