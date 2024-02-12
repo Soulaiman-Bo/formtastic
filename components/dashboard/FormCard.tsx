@@ -9,6 +9,17 @@ import {
 } from "../ui/card";
 import { Button } from "../ui/button";
 import { IoSettingsOutline } from "react-icons/io5";
+import { LiaEdit } from "react-icons/lia";
+import { SlOptions } from "react-icons/sl";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 export const FormCard = () => {
   const [isHover, setIsHovered] = useState<boolean>(false);
@@ -39,14 +50,27 @@ export const FormCard = () => {
 
       <CardFooter className="p-2 flex flex-col">
         <div className="h-full flex justify-center items-center flex-col">
-          {isHover && (
-            <Button variant="outline" size="icon">
-              <IoSettingsOutline />
-            </Button>
-          )}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              {isHover && (
+                <Button variant="ghost" size="icon">
+                  <SlOptions className="h-4 w-4 text-gray-400" />
+                </Button>
+              )}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-32">
+              <DropdownMenuLabel>Options</DropdownMenuLabel>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>Archive</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-red-500">
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </CardFooter>
     </Card>
   );
 };
-
