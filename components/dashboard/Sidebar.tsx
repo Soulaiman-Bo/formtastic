@@ -86,6 +86,7 @@ const Sidebar = () => {
                     </svg>
                   </Button>
                 </DialogTrigger>
+
                 <DialogContent className="md:min-w-[600px] top-[25%]">
                   <DialogHeader className="mb-2">
                     <DialogTitle>Create New Workspace</DialogTitle>
@@ -93,6 +94,7 @@ const Sidebar = () => {
                       Group related forms and share workspaces with your team
                     </DialogDescription>
                   </DialogHeader>
+
                   <div className="flex flex-col  gap-4">
                     <Label htmlFor="name">Name</Label>
                     <Input
@@ -100,6 +102,7 @@ const Sidebar = () => {
                       className="shadow-sm block focus-visible:ring-blue-500 w-full rounded border-gray-300 mb-3 text-sm"
                     />
                   </div>
+
                   <DialogFooter className="mt-4">
                     <Button
                       className="  focus:ring-offset-2 focus-visible:ring-blue-500 h-[42px] sm:h-[38px]  bg-blue-600 hover:bg-blue-700 text-white"
