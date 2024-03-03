@@ -40,6 +40,7 @@ const BlankFormButton = () => {
     }
   }
 
+  
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -77,6 +78,7 @@ const BlankFormButton = () => {
             <h1 className="flex font-semibold text-2xl mb-0">Create Form</h1>
           </DialogTitle>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <div className="flex flex-col  gap-4">
@@ -97,6 +99,7 @@ const BlankFormButton = () => {
                 )}
               />
             </div>
+
             <div className="flex flex-col  gap-4">
               <FormField
                 control={form.control}
@@ -116,6 +119,7 @@ const BlankFormButton = () => {
                 )}
               />
             </div>
+            
             <Button
               className="  focus:ring-offset-2 focus-visible:ring-blue-500 h-[42px] sm:h-[38px]  bg-blue-600 hover:bg-blue-700 text-white"
               type="submit"
@@ -124,6 +128,7 @@ const BlankFormButton = () => {
             </Button>
           </form>
         </Form>
+
       </DialogContent>
     </Dialog>
   );
