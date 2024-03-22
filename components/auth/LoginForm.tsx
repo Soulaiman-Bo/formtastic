@@ -14,10 +14,7 @@ const LoginForm = () => {
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get("callbackUrl") || "/";
 
-  async function onSubmit(values: loginFormSchemaType) {
-
-    console.log("ff");
-    
+  async function onSubmit(values: loginFormSchemaType) {    
 
     try {
       signIn("credentials", {
