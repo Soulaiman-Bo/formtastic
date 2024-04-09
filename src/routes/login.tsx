@@ -7,9 +7,9 @@ export const Route = createFileRoute("/login")({
 
 function login() {
   return (
-    <div className="min-h-full py-20 sm:px-6 lg:px-8 bg-gray-100 w-full h-full">
+    <div className="min-h-full py-20 sm:px-6 lg:px-8 bg-gray-100 w-full h-screen">
       <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="border border-red-400bg-white py-8 px-4 sm:px-10 shadow-lg sm:rounded-lg">
+        <div className="border bg-white py-8 px-4 sm:px-10 shadow-lg sm:rounded-lg">
           <div className="flex justify-center items-center mb-10">
             <div className="text-center text-3xl font-extrabold text-gray-900">
               Sign in to Formtastic

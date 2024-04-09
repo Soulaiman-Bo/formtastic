@@ -39,6 +39,7 @@ const LoginForm = () => {
                     Email address
                   </FormLabel>
                 </div>
+
                 <FormControl>
                   <div className="relative w-full">
                     <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-3">
