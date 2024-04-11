@@ -1,7 +1,15 @@
 import LoginForm from "@/components/LoginForm";
-import { createFileRoute } from "@tanstack/react-router";
+import { isAuthenticated } from "@/lib/auth";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/login")({
+  beforeLoad: () => {
+    if (isAuthenticated()) {
+      throw redirect({
+        to: '/'
+      });
+    }
+  },
   component: login,
 });
 

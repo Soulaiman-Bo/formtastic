@@ -1,7 +1,15 @@
 import SignupForm from "@/components/SignupForm";
-import { createFileRoute } from "@tanstack/react-router";
+import { isAuthenticated } from "@/lib/auth";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/signup")({
+  beforeLoad: () => {
+    if (isAuthenticated()) {
+      throw redirect({
+        to: "/",
+      });
+    }
+  },
   component: signup,
 });
 
@@ -27,7 +35,10 @@ function signup() {
                 <button
                   data-cy="button-component"
                   type="button"
-                  className="inline-flex items-center px-3 border shadow-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[42px] sm:h-[38px] text-sm border-gray-300 text-gray-500 bg-white hover:bg-gray-100  w-full"
+                  className="
+                          inline-flex items-center px-3 border shadow-sm leading-4 font-medium rounded-md 
+                          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[42px] 
+                          sm:h-[38px] text-sm border-gray-300 text-gray-500 bg-white hover:bg-gray-100  w-full"
                 >
                   <span className="max-w-full overflow-hidden">
                     <div className="flex items-center w-full text-blue-500">
