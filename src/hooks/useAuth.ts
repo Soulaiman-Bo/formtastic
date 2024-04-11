@@ -1,12 +1,20 @@
 import API, { PrivateAPI } from "@/lib/HttpClient";
+import { SignUpFormSchemaType } from "@/schema/SignupFormSchema";
 import { useNavigate } from "@tanstack/react-router";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
-interface User {
+interface LoginUser {
   name: string;
   email: string;
   email_verified_at: string | null;
+}
+
+interface User {
+  email: string;
+  updated_at: string;
+  created_at: string;
+  _id: string;
 }
 
 interface LogoutResponse {
@@ -15,7 +23,7 @@ interface LogoutResponse {
 
 interface LoginResponse {
   status: string;
-  user: User;
+  user: LoginUser;
   access_token: string;
   token_type: string;
 }
@@ -27,8 +35,12 @@ interface ErrorResponse {
   };
 }
 
+interface SignUpResponse {
+  user: User;
+}
+
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<LoginUser | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -43,7 +55,7 @@ export const useAuth = () => {
     }
 
     if (user) {
-      setUser(user as unknown as User);
+      setUser(user as unknown as LoginUser);
     }
   }, []);
 
@@ -96,5 +108,16 @@ export const useAuth = () => {
     }
   };
 
-  return { user, accessToken, isLoggedIn, login, logout };
+  const signUp = async (
+    formData: SignUpFormSchemaType
+  ): Promise<SignUpResponse | undefined> => {
+    try {
+      const response = await API.post<SignUpResponse>("/register", formData);
+      return response.data;
+    } catch (error) {
+      console.error("Signup failed:", error);
+    }
+  };
+
+  return { user, accessToken, isLoggedIn, login, logout, signUp };
 };
