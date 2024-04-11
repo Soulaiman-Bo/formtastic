@@ -14,6 +14,8 @@ import {
   SignUpFormSchema,
   SignUpFormSchemaType,
 } from "@/schema/SignupFormSchema";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "@tanstack/react-router";
 
 const LoginForm = () => {
   const form = useForm<SignUpFormSchemaType>({
@@ -26,9 +28,23 @@ const LoginForm = () => {
       confirmPassword: "",
     },
   });
+  const navigate = useNavigate();
+
+  const { signUp } = useAuth();
 
   async function onSubmit(values: SignUpFormSchemaType) {
-    console.log(values);
+    try {
+      const response = await signUp(values);
+
+      if (response && response.user) {
+        console.log("Signup successful!");
+        navigate({ to: "/login" });
+      }
+      
+    } catch (error) {
+      console.log("Signup successful!");
+      navigate({ to: "/error" });
+    }
   }
 
   return (

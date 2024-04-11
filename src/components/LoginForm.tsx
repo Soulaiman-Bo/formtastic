@@ -11,6 +11,8 @@ import {
 } from "./ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "@tanstack/react-router";
+import { useAuth } from "@/hooks/useAuth";
 
 const LoginForm = () => {
   const form = useForm<loginFormSchemaType>({
@@ -21,8 +23,18 @@ const LoginForm = () => {
     },
   });
 
+  const auth = useAuth();
+
+  const navigate = useNavigate({ from: "/login" });
+
   async function onSubmit(values: loginFormSchemaType) {
-    console.log(values);
+    const response = await auth.login(values.email, values.password);
+
+    if (response && "status" in response && response.status === "success") {
+      navigate({ to: "/" });
+    } else if (response && "message" in response) {
+      navigate({ to: "/error" });
+    }
   }
 
   return (
