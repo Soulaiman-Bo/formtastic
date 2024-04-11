@@ -1,43 +1,10 @@
 import API, { PrivateAPI } from "@/lib/HttpClient";
 import { SignUpFormSchemaType } from "@/schema/SignupFormSchema";
+import { ErrorResponse, LoginResponse, LoginUser, LogoutResponse, SignUpResponse } from "@/types/AuthTypes";
 import { useNavigate } from "@tanstack/react-router";
 import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 
-interface LoginUser {
-  name: string;
-  email: string;
-  email_verified_at: string | null;
-}
-
-interface User {
-  email: string;
-  updated_at: string;
-  created_at: string;
-  _id: string;
-}
-
-interface LogoutResponse {
-  message: string;
-}
-
-interface LoginResponse {
-  status: string;
-  user: LoginUser;
-  access_token: string;
-  token_type: string;
-}
-
-interface ErrorResponse {
-  message: string;
-  errors: {
-    email: string[];
-  };
-}
-
-interface SignUpResponse {
-  user: User;
-}
 
 export const useAuth = () => {
   const [user, setUser] = useState<LoginUser | null>(null);
@@ -81,8 +48,15 @@ export const useAuth = () => {
       }
     } catch (error) {
       const axiosError = error as AxiosError<ErrorResponse>;
-      if (axiosError.response && axiosError.response.status === 422) {
-        return axiosError.response.data;
+      if (axiosError.response) {
+        if (axiosError.response.status === 422) {
+          return {
+            message: axiosError.response.data.message,
+            errors: axiosError.response.data.errors,
+          };
+        } else {
+          return { message: "An error occurred during login." };
+        }
       }
     }
   };

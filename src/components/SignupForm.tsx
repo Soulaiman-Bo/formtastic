@@ -40,7 +40,6 @@ const LoginForm = () => {
         console.log("Signup successful!");
         navigate({ to: "/login" });
       }
-      
     } catch (error) {
       console.log("Signup successful!");
       navigate({ to: "/error" });
@@ -194,7 +193,7 @@ const LoginForm = () => {
 
         <button
           type="submit"
-          className="inline-flex items-center px-3 border shadow-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[42px] sm:h-[38px] text-sm border-transparent bg-blue-600 hover:bg-blue-700 text-white w-full flex justify-center mt-6"
+          className="items-center px-3 border shadow-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[42px] sm:h-[38px] text-sm border-transparent bg-blue-600 hover:bg-blue-700 text-white w-full flex justify-center mt-6"
         >
           <span className="max-w-full overflow-hidden">Sign up</span>
         </button>
