@@ -1,11 +1,13 @@
-import SendResetPasswordEmailForm from "@/components/SendResetPasswordEmailForm";
+import ResetpasswordForm from "@/components/ResetpasswordForm";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/auth/resetpassword")({
-  component: compo,
+
+export const Route = createFileRoute("/auth/ForgetPassword")({
+  component: ForgetPassword,
 });
 
-function compo() {
+function ForgetPassword() {
+
   return (
     <div className="min-h-screen flex flex-col py-12 sm:px-6 lg:px-8 bg-gray-100 w-full h-full">
       <div className="sm:mx-auto sm:w-full sm:max-w-md flex justify-center items-center flex-col">
@@ -23,24 +25,27 @@ function compo() {
           ></path>
         </svg>
         <h2 className="mt-6 font-inter text-center text-3xl font-extrabold text-gray-900">
-          Reset password
+          Entre new password
         </h2>
       </div>
       <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <SendResetPasswordEmailForm />
+          <ResetpasswordForm />
         </div>
       </div>
       <p className="mt-6 text-center text-sm text-gray-600">
-        <Link to="/auth/signup" className=" text-blue-600 hover:text-blue-500 font-medium" >
-          Sign Up 
-        </Link>
-        {" "} or {" "}
         <Link
-          to="/auth/login"
           className=" text-blue-600 hover:text-blue-500 font-medium"
+          to="/auth/signup"
         >
-          Log in
+          {" "} Sign Up {" "}
+        </Link>
+        or
+        <Link
+          className=" text-blue-600 hover:text-blue-500 font-medium"
+          to="/auth/login"
+        >
+          {" "} Log in
         </Link>
       </p>
     </div>

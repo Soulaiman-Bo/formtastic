@@ -11,7 +11,7 @@ import {
 } from "./ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { FormErrorAlert } from "./FormErrorAlert";
@@ -35,6 +35,9 @@ const LoginForm = () => {
   const navigate = useNavigate({ from: "/login" });
 
   async function onSubmit(values: loginFormSchemaType) {
+
+    setIsError({error: false})
+
     const response = await auth.login(values.email, values.password);
 
     if (response && "status" in response && response.status === "success") {
@@ -107,13 +110,12 @@ const LoginForm = () => {
                       </div>
 
                       <label className="!mb-0 block text-sm text-gray-600 dark:text-slate-500 items-center">
-                        <a
+                        <Link
+                          to="/auth/resetpassword"
                           className="!text-gray-400 underline !font-normal"
-                          tabIndex={-1}
-                          href="/reset-password"
                         >
                           Forgot password?
-                        </a>
+                        </Link>
                       </label>
                     </div>
                   </div>

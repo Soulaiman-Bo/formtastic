@@ -1,12 +1,12 @@
 import LoginForm from "@/components/LoginForm";
 import { isAuthenticated } from "@/lib/auth";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/auth/login")({
   beforeLoad: () => {
     if (isAuthenticated()) {
       throw redirect({
-        to: '/'
+        to: "/",
       });
     }
   },
@@ -19,7 +19,7 @@ function login() {
       <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="border bg-white py-8 px-4 sm:px-10 shadow-lg sm:rounded-lg">
           <div className="flex justify-center items-center mb-10">
-            <div className="text-center text-3xl font-extrabold text-gray-900">
+            <div className="font-inter text-center text-3xl font-extrabold text-gray-900">
               Sign in to Formtastic
             </div>
           </div>
@@ -30,12 +30,12 @@ function login() {
 
       <p className="mt-6 mb-4 text-center text-sm text-gray-600">
         If you dont have an account,
-        <a
+        <Link
+          to="/auth/signup"
           className="ml-2 text-blue-600 hover:text-blue-500 font-medium"
-          href="/signup?redirectPath=%2Fhome"
         >
           Sign up
-        </a>
+        </Link>
       </p>
 
       <div className="text-center">

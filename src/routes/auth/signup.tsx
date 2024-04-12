@@ -1,6 +1,6 @@
 import SignupForm from "@/components/SignupForm";
 import { isAuthenticated } from "@/lib/auth";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Link, createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/auth/signup")({
   beforeLoad: () => {
@@ -21,7 +21,7 @@ function signup() {
           <div className="z-[50] bg-white flex justify-center flex-col rounded-xl shadow-2xl border-2 border-gray-300">
             <div className=" flex justify-center items-center flex-col ">
               <div className="max-w-[550px] w-full flex items-center justify-center h-full flex-row bg-gray-100 pt-4 rounded-t-xl pb-3">
-                <div className="text-gray-400 font-extrabold text-3xl ">
+                <div className="text-gray-400 font-inter font-extrabold text-3xl ">
                   Formtastic
                 </div>
               </div>
@@ -106,43 +106,19 @@ function signup() {
                 </div>
 
                 <SignupForm />
-
-                <div className="mt-4">
-                  <div className="text-xs text-gray-400">
-                    By signing up, you are agreeing to our{" "}
-                    <a
-                      className="underline text-gray-500"
-                      href="https://fillout.com/privacy"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      privacy policy
-                    </a>{" "}
-                    and{" "}
-                    <a
-                      href="https://fillout.com/terms/"
-                      className="underline text-gray-500"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      terms
-                    </a>
-                    .
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
 
         <p className="mt-6 text-center text-sm text-gray-500 z-50">
-          If you already have an account,
-          <a
+          If you already have an account,{" "}
+          <Link
             className=" text-blue-600 hover:text-blue-400 font-medium underline"
-            href="/login"
+            to="/auth/login"
           >
-            Login
-          </a>
+            Log in
+          </Link>
         </p>
       </div>
     </div>

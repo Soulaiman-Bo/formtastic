@@ -155,6 +155,7 @@ const LoginForm = () => {
                   <div className="relative w-full">
                     <Input
                       {...field}
+                      type="password"
                       className="shadow-sm block w-full rounded border-gray-300 text-sm"
                     />
                   </div>
@@ -181,6 +182,7 @@ const LoginForm = () => {
                   <div className="relative w-full">
                     <Input
                       {...field}
+                      type="password"
                       className="shadow-sm block w-full rounded border-gray-300 text-sm"
                     />
                   </div>
