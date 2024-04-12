@@ -1,10 +1,8 @@
 import DashboardHeader from "@/components/DashboardHeader";
-import FormCardSkeleton from "@/components/FormCardSkeleton";
 import FormCards from "@/components/FormCards";
 import Sidebar from "@/components/Sidebar";
 import { isAuthenticated } from "@/lib/auth";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { Suspense } from "react";
 
 export const Route = createFileRoute("/")({
   beforeLoad: () => {
@@ -29,11 +27,7 @@ function Index() {
               All forms
             </h2>
 
-            
-
-            <Suspense fallback={<FormCardSkeleton />}>
-              <FormCards />
-            </Suspense>
+            <FormCards />
           </div>
         </main>
       </div>
