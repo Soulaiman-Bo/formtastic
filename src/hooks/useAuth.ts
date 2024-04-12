@@ -72,7 +72,7 @@ export const useAuth = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("user");
 
-        navigate({ to: "/login" });
+        navigate({ to: "/auth/login" });
 
         return response.data;
       }

@@ -9,10 +9,10 @@ export const Route = createRootRoute({
       <div className="flex items-center justify-between px-8">
         <ul className="flex gap-4 p-5">
           <li>
-            <Link to="/login">login</Link>
+            <Link to="/auth/login">login</Link>
           </li>
           <li>
-            <Link to="/signup">signup</Link>
+            <Link to="/auth/signup">signup</Link>
           </li>
           <li>
             <Link to="/">Home</Link>

@@ -38,7 +38,7 @@ const LoginForm = () => {
 
       if (response && response.user) {
         console.log("Signup successful!");
-        navigate({ to: "/login" });
+        navigate({ to: "/auth/login" });
       }
     } catch (error) {
       console.log("Signup successful!");

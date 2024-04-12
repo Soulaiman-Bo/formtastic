@@ -30,3 +30,18 @@ export interface ErrorResponse {
 export interface SignUpResponse {
   user: User;
 }
+
+
+export interface PasswordResetSuccessResponse {
+  status: string;
+}
+
+export interface PasswordResetErrorResponse {
+  message: string;
+  errors: Record<string, string[]>;
+}
+
+export interface errorMessage {
+  error: boolean;
+  message?: string;
+}

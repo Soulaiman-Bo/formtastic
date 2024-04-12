@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
-import { AlertDestructive } from "./FormErrorAlert";
+import { FormErrorAlert } from "./FormErrorAlert";
 
 interface errorMessage {
   error: boolean;
@@ -49,7 +49,7 @@ const LoginForm = () => {
 
   return (
     <>
-      {isError.error && <AlertDestructive message={isError.message} />}
+      {isError.error && <FormErrorAlert message={isError.message} />}
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
