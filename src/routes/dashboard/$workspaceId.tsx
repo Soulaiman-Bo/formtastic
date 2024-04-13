@@ -1,21 +1,17 @@
 import DashboardHeader from "@/components/DashboardHeader";
 import FormCards from "@/components/FormCards";
 import Sidebar from "@/components/Sidebar";
-import { isAuthenticated } from "@/lib/auth";
-import { createFileRoute, redirect } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/")({
-  beforeLoad: () => {
-    if (!isAuthenticated()) {
-      throw redirect({
-        to: "/auth/login",
-      });
-    }
-  },
-  component: Index,
+export const Route = createFileRoute("/dashboard/$workspaceId")({
+  component: Workspace,
 });
 
-function Index() {
+function Workspace() {
+  // const { workspaceId } = Route.useParams();
+
+  
+
   return (
     <>
       <Sidebar />

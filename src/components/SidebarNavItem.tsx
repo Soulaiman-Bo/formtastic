@@ -17,7 +17,7 @@ const SidebarNavItem = ({ name, id }: { name: string; id: string }) => {
 
   return (
     <li>
-      <Link to="/$workspaceId" params={{ workspaceId: id }}>
+      <Link to="/dashboard/$workspaceId" params={{ workspaceId: id }}>
         <div className="bg-indigo-50 text-indigo-600 group flex rounded-md text-sm leading-6 font-semibold gap-x-3 p-2 my-1">
           <span className="text-indigo-600 border-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white">
             {capitalizeFirstLetter(name)}

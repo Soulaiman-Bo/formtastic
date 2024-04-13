@@ -12,8 +12,8 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as ErrorImport } from './routes/error'
-import { Route as WorkspaceIdImport } from './routes/$workspaceId'
 import { Route as IndexImport } from './routes/index'
+import { Route as DashboardWorkspaceIdImport } from './routes/dashboard/$workspaceId'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthResetpasswordImport } from './routes/auth/resetpassword'
 import { Route as AuthLoginImport } from './routes/auth/login'
@@ -28,13 +28,13 @@ const ErrorRoute = ErrorImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const WorkspaceIdRoute = WorkspaceIdImport.update({
-  path: '/$workspaceId',
+const IndexRoute = IndexImport.update({
+  path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const IndexRoute = IndexImport.update({
-  path: '/',
+const DashboardWorkspaceIdRoute = DashboardWorkspaceIdImport.update({
+  path: '/dashboard/$workspaceId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -76,10 +76,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/$workspaceId': {
-      preLoaderRoute: typeof WorkspaceIdImport
-      parentRoute: typeof rootRoute
-    }
     '/error': {
       preLoaderRoute: typeof ErrorImport
       parentRoute: typeof rootRoute
@@ -100,6 +96,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/$workspaceId': {
+      preLoaderRoute: typeof DashboardWorkspaceIdImport
+      parentRoute: typeof rootRoute
+    }
     '/studio/$postId/edit': {
       preLoaderRoute: typeof StudioPostIdEditImport
       parentRoute: typeof rootRoute
@@ -115,12 +115,12 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  WorkspaceIdRoute,
   ErrorRoute,
   AuthForgetPasswordRoute,
   AuthLoginRoute,
   AuthResetpasswordRoute,
   AuthSignupRoute,
+  DashboardWorkspaceIdRoute,
   StudioPostIdEditRoute,
   StudioPostIdIndexRoute,
 ])
