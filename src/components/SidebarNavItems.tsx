@@ -1,19 +1,32 @@
+import { useQuery } from "@tanstack/react-query";
 import SidebarNavItem from "./SidebarNavItem";
 import SidebarNavItemSkeleton from "./SidebarNavItemSkeleton";
-import useWorkspace from "@/hooks/useWorkspace";
+import { PrivateAPI } from "@/lib/HttpClient";
+import { FormErrorAlert } from "./FormErrorAlert";
+
+type Workspace = {
+  id: string;
+  name: string;
+};
 
 const SidebarNavItems = () => {
-  const { workspaces, loading, error } = useWorkspace();
+  const { data, error, isLoading, isError } = useQuery({
+    queryKey: ["workspaces"],
+    queryFn: async () => {
+      const response = await PrivateAPI.get<Workspace[]>("/workspaces");
+      return response.data;
+    },
+  });
 
-  if (loading) {
+  if (isLoading) {
     return <SidebarNavItemSkeleton />;
   }
 
-  if (error) return <div>Error: {error}</div>;
+  if (isError) return <FormErrorAlert message={error.message} />;
 
   return (
     <ul role="list">
-      {workspaces.map((item) => (
+      {data?.map((item) => (
         <SidebarNavItem id={item.id} name={item.name} key={item.id} />
       ))}
     </ul>
