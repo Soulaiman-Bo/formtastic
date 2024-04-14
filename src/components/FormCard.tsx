@@ -1,10 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-} from "./ui/card";
+import { Card, CardContent, CardFooter } from "./ui/card";
 import { Button } from "./ui/button";
 import { SlOptions } from "react-icons/sl";
 import {
@@ -16,8 +12,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { formatDistanceToNow, parseISO } from "date-fns";
 
-export const FormCard = () => {
+type form = {
+  _id: string;
+  workspace_id: string;
+  name: string;
+  description: string;
+  visits: number;
+  submittions: number;
+  published: boolean;
+  updated_at: string;
+  created_at: string;
+};
+
+const TimeAgo = ({ dateString }: { dateString: string }) => {
+  const date = parseISO(dateString);
+  const timeAgo = formatDistanceToNow(date, { addSuffix: true });
+  const cleanTimeAgo = timeAgo.replace(/about /gi, "");
+  return <span className="text-gray-400 font-normal">{cleanTimeAgo}</span>;
+};
+
+export const FormCard: React.FC<form> = ({ form }) => {
   const [isHover, setIsHovered] = useState<boolean>(false);
 
   const handleHover = () => {
@@ -32,14 +48,19 @@ export const FormCard = () => {
     >
       <CardContent className="pt-6 ">
         <div className="text-gray-700 font-medium hover:text-gray-600 truncate text-left">
-          RSVP formjjjj
+          {form.name}
         </div>
         <div className="flex">
           <span className="text-gray-500 flex justify-start py-1 px-2 -ml-2 mt-2  rounded-md group/button items-center border  border-transparent transition-all duration-200">
-            <span className="text-gray-400 font-light">No responses -</span>
+            <span className="text-gray-400 font-light">
+              {parseInt(form.submittions) === 0
+                ? "No Responses "
+                : <span className="font-normal text-green-400">{form.submittions} Responses </span>} 
+              -
+            </span>
           </span>
           <span className="text-gray-500 flex justify-start py-1 px-2 -ml-2 mt-2  rounded-md group/button items-center border  border-transparent transition-all duration-200">
-            <span className="text-gray-400 font-normal">2 days ago</span>
+            <TimeAgo dateString={form.created_at} />
           </span>
         </div>
       </CardContent>
