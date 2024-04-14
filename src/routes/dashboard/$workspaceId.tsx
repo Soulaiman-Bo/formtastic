@@ -8,9 +8,6 @@ export const Route = createFileRoute("/dashboard/$workspaceId")({
 });
 
 function Workspace() {
-  // const { workspaceId } = Route.useParams();
-
-  
 
   return (
     <>

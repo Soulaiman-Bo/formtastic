@@ -23,20 +23,103 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
 import { ListTodo } from "lucide-react";
+import { useParams } from "@tanstack/react-router";
+import axios from "axios";
+import { PrivateAPI } from "@/lib/HttpClient";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "./ui/use-toast";
+import { ImSpinner2 } from "react-icons/im";
 
-const BlankFormButton = () => {
+interface props {
+  closeParent: () => void;
+}
+
+type FormResponse = {
+  workspace_id: string;
+  name: string;
+  description: string;
+  visits: number;
+  submittions: number;
+  published: boolean;
+  updated_at: string;
+  created_at: string;
+  _id: string;
+};
+
+const createFormApi = async (
+  values: createFormSchemaType,
+  workspaceId: string
+): Promise<FormResponse> => {
+  try {
+    const response = await PrivateAPI.post<FormResponse>(
+      `/workspaces/${workspaceId}/forms`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(
+        error.response.data.message || "Failed to create workspace"
+      );
+    } else {
+      throw new Error("An unexpected error occurred");
+    }
+  }
+};
+
+function useCreatFormApi(workspaceId: string, closeParent: () => void) {
+  const queryClient = useQueryClient();
+
+  return useMutation<FormResponse, Error, createFormSchemaType>({
+    mutationFn: (values) => {
+      return createFormApi(values, workspaceId);
+    },
+    onSuccess: (data: FormResponse) => {
+      queryClient.setQueryData(
+        [`forms-${workspaceId}`],
+        (old: FormResponse[] | undefined) => [...old!, data]
+      );
+
+      closeParent();
+
+      toast({
+        title: "Success",
+        variant: "success",
+        description: "Form created Successfully",
+      });
+    },
+
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+}
+
+const BlankFormButton: React.FC<props> = ({ closeParent }) => {
+  const { workspaceId } = useParams({ strict: false }) as {
+    workspaceId: string;
+  };
+
   const form = useForm<createFormSchemaType>({
     resolver: zodResolver(createFormSchema),
+    defaultValues: {
+      description: "",
+      workspace_id: workspaceId,
+      name: "",
+    },
   });
 
+  const { mutate: createForm, isPending } = useCreatFormApi(
+    workspaceId,
+    closeParent
+  );
+
   async function onSubmit(values: createFormSchemaType) {
-    console.log(values);
-
-    // try {
-    //  // api request to create a form
-    // } catch (error) {
-
-    // }
+    createForm(values);
   }
 
   return (
@@ -56,6 +139,7 @@ const BlankFormButton = () => {
           </div>
         </button>
       </DialogTrigger>
+
       <DialogContent>
         <DialogHeader className="p-4">
           <DialogTitle>
@@ -102,10 +186,14 @@ const BlankFormButton = () => {
               />
             </div>
             <Button
-              className="  focus:ring-offset-2 focus-visible:ring-blue-500 h-[42px] sm:h-[38px]  bg-blue-600 hover:bg-blue-700 text-white"
+              className=" min-w-24  focus:ring-offset-2 focus-visible:ring-blue-500 h-[42px] sm:h-[38px]  bg-blue-600 hover:bg-blue-700 text-white"
               type="submit"
             >
-              Create Form
+              {isPending ? (
+                <ImSpinner2 className="animate-spin h-4 w-4" />
+              ) : (
+                "Create Form"
+              )}
             </Button>
           </form>
         </Form>

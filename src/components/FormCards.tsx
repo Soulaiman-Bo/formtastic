@@ -18,10 +18,10 @@ type form = {
   created_at: string;
 };
 
-
 const FormCards = () => {
-  const { workspaceId } = useParams({ strict: false });
-  console.log(workspaceId);
+  const { workspaceId } = useParams({ strict: false }) as {
+    workspaceId: string;
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: [`forms-${workspaceId}`],
