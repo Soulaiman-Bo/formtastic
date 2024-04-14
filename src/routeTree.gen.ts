@@ -18,8 +18,8 @@ import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthResetpasswordImport } from './routes/auth/resetpassword'
 import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordImport } from './routes/auth/ForgetPassword'
-import { Route as StudioPostIdIndexImport } from './routes/studio/$postId/index'
-import { Route as StudioPostIdEditImport } from './routes/studio/$postId/edit'
+import { Route as StudioFormIdIndexImport } from './routes/studio/$formId/index'
+import { Route as StudioFormIdEditImport } from './routes/studio/$formId/edit'
 
 // Create/Update Routes
 
@@ -58,13 +58,13 @@ const AuthForgetPasswordRoute = AuthForgetPasswordImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const StudioPostIdIndexRoute = StudioPostIdIndexImport.update({
-  path: '/studio/$postId/',
+const StudioFormIdIndexRoute = StudioFormIdIndexImport.update({
+  path: '/studio/$formId/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const StudioPostIdEditRoute = StudioPostIdEditImport.update({
-  path: '/studio/$postId/edit',
+const StudioFormIdEditRoute = StudioFormIdEditImport.update({
+  path: '/studio/$formId/edit',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -100,12 +100,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardWorkspaceIdImport
       parentRoute: typeof rootRoute
     }
-    '/studio/$postId/edit': {
-      preLoaderRoute: typeof StudioPostIdEditImport
+    '/studio/$formId/edit': {
+      preLoaderRoute: typeof StudioFormIdEditImport
       parentRoute: typeof rootRoute
     }
-    '/studio/$postId/': {
-      preLoaderRoute: typeof StudioPostIdIndexImport
+    '/studio/$formId/': {
+      preLoaderRoute: typeof StudioFormIdIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -121,8 +121,8 @@ export const routeTree = rootRoute.addChildren([
   AuthResetpasswordRoute,
   AuthSignupRoute,
   DashboardWorkspaceIdRoute,
-  StudioPostIdEditRoute,
-  StudioPostIdIndexRoute,
+  StudioFormIdEditRoute,
+  StudioFormIdIndexRoute,
 ])
 
 /* prettier-ignore-end */
