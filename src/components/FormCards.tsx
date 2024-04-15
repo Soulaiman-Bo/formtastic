@@ -2,7 +2,6 @@ import { PrivateAPI } from "@/lib/HttpClient";
 import { FormCard } from "./FormCard";
 import FormCardSkeleton from "./FormCardSkeleton";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "@tanstack/react-router";
 import { FolderOpen } from "lucide-react";
 import NewFormButton from "./NewFormButton";
 
@@ -18,11 +17,7 @@ type form = {
   created_at: string;
 };
 
-const FormCards = () => {
-  const { workspaceId } = useParams({ strict: false }) as {
-    workspaceId: string;
-  };
-
+const FormCards = ({ workspaceId }: { workspaceId: string }) => {
   const { data, isLoading } = useQuery({
     queryKey: [`forms-${workspaceId}`],
     queryFn: async () => {
