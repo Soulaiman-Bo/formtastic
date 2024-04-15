@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent, CardFooter } from "./ui/card";
 import { formatDistanceToNow, parseISO } from "date-fns";
 import FromCardOptions from "./FromCardOptions";
@@ -28,7 +28,7 @@ export const FormCard: React.FC<{ form: form }> = ({ form }) => {
     <Card className="col-span-1 flex justify-between shadow-sm border-t-4 border-t-blue-400  rounded-md hover:shadow-gray-300 transition duration-200 ease-in-out hover:!shadow-md">
       <CardContent className="pt-6 ">
 
-        <Link to="/studio/$formId" params={{ formId: form._id }}>
+        <Link to="/studio/$workspaceId/form/$formId" params={{ formId: form._id, workspaceId: form.workspace_id }}>
           <div>
             <div className="text-gray-700 font-medium hover:text-gray-600 truncate text-left">
               {form.name}

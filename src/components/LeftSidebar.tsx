@@ -1,34 +1,34 @@
 import { Input } from "./ui/input";
+import { AlignCenter } from "lucide-react";
 
 const LeftSidebar = () => {
   return (
-    <div className="w-full bg-gray-50 flex flex-col justify-between border-r-[0.5px] border-l-[0.5px] border-gray-300 h-full max-w-[226px] min-w-[180px] lg:max-w-[300px] lg:min-w-[270px]">
-      <div className="flex flex-col pt-4 h-full justify-start overflow-auto">
-        <div className="flex items-center px-3 pb-[10px] border-b border-transparent transition duration-200 -mb-[10px] bg-gray-50 z-10 !border-gray-200">
-          <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-                className="text-gray-400"
-                style={{ height: "16px", width: "16px" }}
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </div>
-            <Input
-              type="search"
-              placeholder="Search for Input"
-              className="shadow-sm block w-full rounded border-gray-300 pl-8 sm:text-sm"
-            />
+    <div className="w-full pt-4 bg-gray-50 flex flex-col justify-between border-r-[0.5px] border-l-[0.5px] border-gray-300 h-full max-w-[226px] min-w-[180px] lg:max-w-[300px] lg:min-w-[270px]">
+      <div className="after:flex mb-2 items-center px-3 pb-[10px] border-b border-transparent transition duration-200  bg-gray-50 z-10 !border-gray-200">
+        <div className="relative w-full">
+          <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+              className="text-gray-400"
+              style={{ height: "16px", width: "16px" }}
+            >
+              <path
+                fillRule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                clip-rule="evenodd"
+              ></path>
+            </svg>
           </div>
-          {/* <div className="inline-block z-[14]">
+          <Input
+            type="search"
+            placeholder="Search for Input"
+            className="shadow-sm block w-full rounded border-gray-300 pl-8 sm:text-sm"
+          />
+        </div>
+        {/* <div className="inline-block z-[14]">
             <div className="flex p-1 bg-purple-100 rounded-lg cursor-pointer hover:bg-purple-200 shadow-sm transition duration-100 ml-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -44,12 +44,33 @@ const LeftSidebar = () => {
                 ></path>
               </svg>
             </div>
-          </div> */}
+          </div>  */}
+      </div>
+
+      <div className="p-3 h-full ">
+        <div className="text-base text-gray-400 font-medium">
+          Frequently used
         </div>
-        
+
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 mt-3 gap-y-4">
+          <ShortAnswerField />
+        </div>
       </div>
     </div>
   );
 };
 
 export default LeftSidebar;
+
+const ShortAnswerField = () => {
+  return (
+    <div className="bg-white px-[3px] flex flex-col pt-3 pb-[6px] items-center rounded-md cursor-pointer  shadow hover:shadow-md hover:shadow-gray-400/50">
+      <div className="p-1 text-green-500  border-green-500 rounded bg-gray-50 border-[0.5px]">
+        <AlignCenter className="h-5 w-5" />
+      </div>
+      <div className="text-gray-700 text-xs font-medium flex justify-center mt-2 text-center leading-3 h-6 items-center">
+        Short answer
+      </div>
+    </div>
+  );
+};

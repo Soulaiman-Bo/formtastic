@@ -75,6 +75,9 @@ module.exports = {
         'roboto': ['Roboto', 'sans-serif'], // Use the font name you've imported
         'inter': ['Inter', 'sans-serif'],
       },
+      height: {
+        'screen-minus-98': 'calc(100vh - 98px)'
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

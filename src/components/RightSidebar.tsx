@@ -2,14 +2,14 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { MousePointerClick, X } from "lucide-react";
 
-const RightSidebar = () => {
+const RightSidebar = ({close}: {close: () => void}) => {
   const [selected, setSelected] = useState(true);
 
   return (
     <div className=" w-full flex flex-col gap-2 bg-gray-50 border-r-[0.5px] border-l-[0.5px] border-gray-300 h-full overflow-y-auto pb-6 max-w-[300px] min-w-[270px] relative">
       <div className=" pr-2">
         <Button
-          onClick={() => console.log("e=hello")}
+          onClick={() => close()}
           variant="ghost"
           className="cursor-pointer m-2"
         >

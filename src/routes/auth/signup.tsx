@@ -55,7 +55,7 @@ function signup() {
                           stroke="none"
                           stroke-width="1"
                           fill="none"
-                          fill-rule="evenodd"
+                          fillRule="evenodd"
                         >
                           <circle
                             id="Oval"
@@ -66,7 +66,7 @@ function signup() {
                           ></circle>
                           <g
                             transform="translate(3.000000, 3.000000)"
-                            fill-rule="nonzero"
+                            fillRule="nonzero"
                             id="Path"
                           >
                             <path
