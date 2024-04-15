@@ -19,7 +19,6 @@ import { Route as AuthResetpasswordImport } from './routes/auth/resetpassword'
 import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordImport } from './routes/auth/ForgetPassword'
 import { Route as StudioFormIdIndexImport } from './routes/studio/$formId/index'
-import { Route as StudioFormIdEditImport } from './routes/studio/$formId/edit'
 
 // Create/Update Routes
 
@@ -63,11 +62,6 @@ const StudioFormIdIndexRoute = StudioFormIdIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const StudioFormIdEditRoute = StudioFormIdEditImport.update({
-  path: '/studio/$formId/edit',
-  getParentRoute: () => rootRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -100,10 +94,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardWorkspaceIdImport
       parentRoute: typeof rootRoute
     }
-    '/studio/$formId/edit': {
-      preLoaderRoute: typeof StudioFormIdEditImport
-      parentRoute: typeof rootRoute
-    }
     '/studio/$formId/': {
       preLoaderRoute: typeof StudioFormIdIndexImport
       parentRoute: typeof rootRoute
@@ -121,7 +111,6 @@ export const routeTree = rootRoute.addChildren([
   AuthResetpasswordRoute,
   AuthSignupRoute,
   DashboardWorkspaceIdRoute,
-  StudioFormIdEditRoute,
   StudioFormIdIndexRoute,
 ])
 
