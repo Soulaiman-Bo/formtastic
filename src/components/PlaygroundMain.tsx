@@ -1,8 +1,19 @@
+import { useDroppable } from "@dnd-kit/core";
 import { MousePointerClick } from "lucide-react";
 import React from "react";
 
 const PlaygroundMain = () => {
+
+  const droppable = useDroppable({
+    id: "playground-drop-area",
+    data: {
+      isPlaygroundDropArea: true,
+    },
+  })
+
+
   return (
+
     <div className="p-5 pb-3 w-full">
       <div className="flex flex-col rounded-xl justify-between h-full w-full border-[0.5px] border-gray-300 shadow-lg relative overflow-hidden">
         <div className="p-2 flex w-full sm:pb-4 justify-between bg-gray-100 h-full  flex-col rounded-xl overflow-hidden border-[0.5px] border-gray-300 shadow-lg">
@@ -12,6 +23,8 @@ const PlaygroundMain = () => {
         </div>
       </div>
     </div>
+
+
   );
 };
 

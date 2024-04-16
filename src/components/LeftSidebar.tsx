@@ -1,5 +1,7 @@
+import { FormElements } from "./FormElements";
+import DraggableCardElement from "./DraggableCardElement";
 import { Input } from "./ui/input";
-import { AlignCenter } from "lucide-react";
+// import { AlignCenter } from "lucide-react";
 
 const LeftSidebar = () => {
   return (
@@ -53,7 +55,7 @@ const LeftSidebar = () => {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 mt-3 gap-y-4">
-          <ShortAnswerField />
+          <DraggableCardElement formElement={FormElements.ShortAnswerField} />
         </div>
       </div>
     </div>
@@ -61,16 +63,3 @@ const LeftSidebar = () => {
 };
 
 export default LeftSidebar;
-
-const ShortAnswerField = () => {
-  return (
-    <div className="bg-white px-[3px] flex flex-col pt-3 pb-[6px] items-center rounded-md cursor-pointer  shadow hover:shadow-md hover:shadow-gray-400/50">
-      <div className="p-1 text-green-500  border-green-500 rounded bg-gray-50 border-[0.5px]">
-        <AlignCenter className="h-5 w-5" />
-      </div>
-      <div className="text-gray-700 text-xs font-medium flex justify-center mt-2 text-center leading-3 h-6 items-center">
-        Short answer
-      </div>
-    </div>
-  );
-};
