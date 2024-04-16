@@ -6,7 +6,7 @@ import { PrivateAPI } from "@/lib/HttpClient";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverLayWrapper from "@/components/DragOverLayWrapper";
 
 export const Route = createFileRoute("/studio/$workspaceId/form/$formId")({
@@ -50,6 +50,13 @@ function Playground() {
     console.log(data);
   }
 
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 10,
+    },
+  });
+  const sensors = useSensors(mouseSensor);
+
   return (
     <>
       <PlaygroundHeader workspaceId={workspaceId} />
@@ -58,7 +65,7 @@ function Playground() {
         className="flex w-full items-start justify-start flex-col"
         style={{ height: "calc(-58px + 100vh)" }}
       >
-        <DndContext>
+        <DndContext sensors={sensors}>
           <div className="flex justify-center w-full h-full flex-col items-center">
             <div className="flex w-full h-full justify-center">
               <LeftSidebar />
