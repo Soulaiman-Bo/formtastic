@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ShortAnswerFieldFormElement } from "./FormFields/ShortAnswerField";
 
 export type ElementsType = "ShortAnswerField";
@@ -13,7 +14,9 @@ export type FormElement = {
     color: string;
   }; //designerBtnElement
 
-  mainComponent: React.FC; // designerComponent
+  mainComponent: React.FC<{
+    elementInstance: FormElementInstance
+  }>; // designerComponent
   previewComponent: React.FC; // formComponent
   propertiesComponent: React.FC; //propertiesComponent
 };
@@ -21,7 +24,7 @@ export type FormElement = {
 export type FormElementInstance = {
   id: string;
   type: ElementsType;
-  extraAttrivutes?: Record<string, unknown>;
+  extraAttributes?: Record<string, any>;
 };
 
 type FormElementsType = {
