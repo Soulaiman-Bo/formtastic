@@ -9,7 +9,7 @@ import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverLayWrapper from "@/components/DragOverLayWrapper";
 import usePlayground from "@/hooks/usePlayground";
 
-export const Route = createFileRoute("/studio/$workspaceId/form/$formId")({
+export const Route = createFileRoute("/studio/$workspaceId/form/$formId/")({
   component: Playground,
 });
 
@@ -60,7 +60,7 @@ function Playground() {
 
   return (
     <>
-      <PlaygroundHeader workspaceId={workspaceId} />
+      <PlaygroundHeader formId={formId} workspaceId={workspaceId} />
 
       <div
         className="flex w-full items-start justify-start flex-col"

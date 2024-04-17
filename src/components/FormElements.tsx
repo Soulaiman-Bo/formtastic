@@ -14,22 +14,16 @@ export type FormElement = {
     color: string;
   }; //designerBtnElement
 
-  mainComponent: React.FC<{
-    elementInstance: FormElementInstance
-  }>; // designerComponent
+  mainComponent: React.FC<{ elementInstance: FormElementInstance }>; // designerComponent
   previewComponent: React.FC; // formComponent
-  propertiesComponent: React.FC<{
-    elementInstance: FormElementInstance;
-  }>; //propertiesComponent
-};
+  propertiesComponent: React.FC<{ elementInstance: FormElementInstance }>; //propertiesComponent
+}; // main form element type
 
 export type FormElementInstance = {
   id: string;
   type: ElementsType;
   extraAttributes?: Record<string, any>;
-};
-
-
+}; 
 
 type FormElementsType = {
   [key in ElementsType]: FormElement;
@@ -38,3 +32,8 @@ type FormElementsType = {
 export const FormElements: FormElementsType = {
   ShortAnswerField: ShortAnswerFieldFormElement,
 };
+
+
+
+
+// FormElements is the object that contains all Form fields 
