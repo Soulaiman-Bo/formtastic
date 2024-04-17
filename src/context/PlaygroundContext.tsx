@@ -9,7 +9,8 @@ type PlaygroundContextType = {
   removeElement: (id: string) => void;
   selectedElement: FormElementInstance | null;
   setSelectedElement: Dispatch<SetStateAction<FormElementInstance | null>>;
-
+  isSideBarOpen: boolean;
+  setisSideBarOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export const PlaygroundContext = createContext<PlaygroundContextType | null>(
@@ -24,6 +25,7 @@ export default function PlaygroundContextProvider({
   const [elements, setElements] = useState<FormElementInstance[]>([]);
   const [selectedElement, setSelectedElement] =
     useState<FormElementInstance | null>(null);
+  const [isSideBarOpen, setisSideBarOpen] = useState<boolean>(false);
 
   const addElement = (index: number, element: FormElementInstance) => {
     setElements((prev) => {
@@ -46,6 +48,8 @@ export default function PlaygroundContextProvider({
         removeElement,
         selectedElement,
         setSelectedElement,
+        isSideBarOpen,
+        setisSideBarOpen,
       }}
     >
       {children}

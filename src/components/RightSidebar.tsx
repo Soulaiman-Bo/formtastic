@@ -1,9 +1,10 @@
-import { useState } from "react";
 import { Button } from "./ui/button";
 import { MousePointerClick, X } from "lucide-react";
+import usePlayground from "@/hooks/usePlayground";
+import { FormElements } from "./FormElements";
 
-const RightSidebar = ({close}: {close: () => void}) => {
-  const [selected, setSelected] = useState(true);
+const RightSidebar = ({ close }: { close: () => void }) => {
+  const { selectedElement } = usePlayground();
 
   return (
     <div className=" w-full flex flex-col gap-2 bg-gray-50 border-r-[0.5px] border-l-[0.5px] border-gray-300 h-full overflow-y-auto pb-6 max-w-[300px] min-w-[270px] relative">
@@ -17,7 +18,10 @@ const RightSidebar = ({close}: {close: () => void}) => {
         </Button>
       </div>
 
-      {selected && <EmptyState />}
+      {!selectedElement && <EmptyState />}
+      {selectedElement && <PropertiesFormSidebar />}
+
+
     </div>
   );
 };
@@ -34,3 +38,14 @@ const EmptyState = () => {
     </div>
   );
 };
+
+function PropertiesFormSidebar() {
+  const { selectedElement } = usePlayground();
+
+  if (!selectedElement) return null;
+
+  const PropertiesForm = FormElements[selectedElement?.type].propertiesComponent
+
+
+  return <PropertiesForm elementInstance={selectedElement} />;
+}

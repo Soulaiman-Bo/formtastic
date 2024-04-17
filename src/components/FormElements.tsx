@@ -18,7 +18,9 @@ export type FormElement = {
     elementInstance: FormElementInstance
   }>; // designerComponent
   previewComponent: React.FC; // formComponent
-  propertiesComponent: React.FC; //propertiesComponent
+  propertiesComponent: React.FC<{
+    elementInstance: FormElementInstance;
+  }>; //propertiesComponent
 };
 
 export type FormElementInstance = {
@@ -26,6 +28,8 @@ export type FormElementInstance = {
   type: ElementsType;
   extraAttributes?: Record<string, any>;
 };
+
+
 
 type FormElementsType = {
   [key in ElementsType]: FormElement;

@@ -5,9 +5,9 @@ import RightSidebar from "@/components/RightSidebar";
 import { PrivateAPI } from "@/lib/HttpClient";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverLayWrapper from "@/components/DragOverLayWrapper";
+import usePlayground from "@/hooks/usePlayground";
 
 export const Route = createFileRoute("/studio/$workspaceId/form/$formId")({
   component: Playground,
@@ -24,7 +24,8 @@ interface Form {
 }
 
 function Playground() {
-  const [sideBarOpen, setSideBarOpen] = useState(true);
+  const {isSideBarOpen, setisSideBarOpen} = usePlayground()
+
 
   const { formId, workspaceId } = Route.useParams();
 
@@ -39,7 +40,7 @@ function Playground() {
   });
 
   const closeLeftSidebar = () => {
-    setSideBarOpen(false);
+    setisSideBarOpen(false);
   };
 
   if (isLoading) {
@@ -70,7 +71,7 @@ function Playground() {
             <div className="flex w-full h-full justify-center">
               <LeftSidebar />
               <PlaygroundMain />
-              {sideBarOpen && <RightSidebar close={closeLeftSidebar} />}
+              {isSideBarOpen && <RightSidebar close={closeLeftSidebar} />}
             </div>
           </div>
           <DragOverLayWrapper />

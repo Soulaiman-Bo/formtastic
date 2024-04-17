@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
-import { MousePointerClick, Trash } from "lucide-react";
+import { MousePointerClick, Settings, Trash } from "lucide-react";
 import {
   ElementsType,
   FormElementInstance,
@@ -10,7 +10,7 @@ import usePlayground from "@/hooks/usePlayground";
 import { useState } from "react";
 
 const PlaygroundMain = () => {
-  const { elements, addElement, selectedElement, setSelectedElement } = usePlayground();
+  const { elements, addElement, setSelectedElement } = usePlayground();
 
 
   const droppable = useDroppable({
@@ -120,7 +120,7 @@ function PlaygroundElementWrapper({
 }) {
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
 
-  const { removeElement, selectedElement, setSelectedElement } = usePlayground();
+  const { removeElement, selectedElement, setSelectedElement, setisSideBarOpen } = usePlayground();
 
   const topHalf = useDroppable({
     id: element.id + "-top",
@@ -196,7 +196,7 @@ function PlaygroundElementWrapper({
       )}
 
       {selectedElement?.id === element.id  && (
-        <div className="absolut  ring-2 w-fit">
+        <div className="absolut flex gap-3 ring-2 w-fit">
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -205,6 +205,16 @@ function PlaygroundElementWrapper({
           >
             <Trash color="#555" />
           </button>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setisSideBarOpen(true)
+            }}
+          >
+           <Settings color="#555" />
+          </button>
+
         </div>
       )}
     </div>
