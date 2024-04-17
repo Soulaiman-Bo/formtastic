@@ -18,7 +18,8 @@ import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthResetpasswordImport } from './routes/auth/resetpassword'
 import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as AuthForgetPasswordImport } from './routes/auth/ForgetPassword'
-import { Route as StudioWorkspaceIdFormFormIdImport } from './routes/studio/$workspaceId/form/$formId'
+import { Route as StudioWorkspaceIdFormFormIdIndexImport } from './routes/studio/$workspaceId/form/$formId/index'
+import { Route as StudioWorkspaceIdFormFormIdPreviewImport } from './routes/studio/$workspaceId/form/$formId/preview'
 
 // Create/Update Routes
 
@@ -57,9 +58,15 @@ const AuthForgetPasswordRoute = AuthForgetPasswordImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const StudioWorkspaceIdFormFormIdRoute =
-  StudioWorkspaceIdFormFormIdImport.update({
-    path: '/studio/$workspaceId/form/$formId',
+const StudioWorkspaceIdFormFormIdIndexRoute =
+  StudioWorkspaceIdFormFormIdIndexImport.update({
+    path: '/studio/$workspaceId/form/$formId/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const StudioWorkspaceIdFormFormIdPreviewRoute =
+  StudioWorkspaceIdFormFormIdPreviewImport.update({
+    path: '/studio/$workspaceId/form/$formId/preview',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -95,8 +102,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardWorkspaceIdImport
       parentRoute: typeof rootRoute
     }
-    '/studio/$workspaceId/form/$formId': {
-      preLoaderRoute: typeof StudioWorkspaceIdFormFormIdImport
+    '/studio/$workspaceId/form/$formId/preview': {
+      preLoaderRoute: typeof StudioWorkspaceIdFormFormIdPreviewImport
+      parentRoute: typeof rootRoute
+    }
+    '/studio/$workspaceId/form/$formId/': {
+      preLoaderRoute: typeof StudioWorkspaceIdFormFormIdIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -112,7 +123,8 @@ export const routeTree = rootRoute.addChildren([
   AuthResetpasswordRoute,
   AuthSignupRoute,
   DashboardWorkspaceIdRoute,
-  StudioWorkspaceIdFormFormIdRoute,
+  StudioWorkspaceIdFormFormIdPreviewRoute,
+  StudioWorkspaceIdFormFormIdIndexRoute,
 ])
 
 /* prettier-ignore-end */
