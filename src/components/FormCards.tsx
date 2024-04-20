@@ -42,7 +42,7 @@ const FormCards = ({ workspaceId }: { workspaceId: string }) => {
           </h2>
           <br />
 
-          <NewFormButton />
+          <NewFormButton disabled={false} />
         </div>
       </div>
     );

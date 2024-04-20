@@ -22,6 +22,7 @@ import axios from "axios";
 import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import { toast } from "./ui/use-toast";
+// import { useNavigate } from "@tanstack/react-router";
 
 type WorkspaceResponse = {
   id: string;
@@ -50,6 +51,7 @@ const createWorkspaceApi = async (
 
 function useCreateWorkspace(onSuccess: () => void, resetForm: () => void) {
   const queryClient = useQueryClient();
+  // const navigate = useNavigate({ from: "/login" });
 
   return useMutation<WorkspaceResponse, Error, NewWorkspaceSchemaType>({
     mutationFn: (values) => {
@@ -64,6 +66,9 @@ function useCreateWorkspace(onSuccess: () => void, resetForm: () => void) {
       );
       resetForm();
       onSuccess();
+
+      
+
 
       toast({
         title: "Success",

@@ -1,27 +1,26 @@
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "./ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import BlankFormButton from "./BlankFormButton";
 import { Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const NewFormButton = () => {
+const NewFormButton = ({disabled}: {disabled: boolean}) => {
   const [isOpen, setIsOpen] = useState(false); // State to control dialog visibility
   const closeDialog = () => setIsOpen(false);
 
-  
+
 
   return (
     <>
       <Button
+        disabled={disabled}
         onClick={() => setIsOpen(true)}
         type="button"
-        className="inline-flex items-center px-3 border shadow-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[42px] sm:h-[38px] text-sm border-transparent bg-blue-600 hover:bg-blue-700 text-white"
+        className={cn("inline-flex items-center px-3 border shadow-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[42px] sm:h-[38px] text-sm border-transparent bg-blue-600 hover:bg-blue-700 text-white",
+        disabled ? "bg-gray-400" : ""
+        )}
       >
         <Plus color="#fff" strokeWidth={3} className="-ml-0.5 mr-2 h-4 w-4" />
 
@@ -39,9 +38,7 @@ const NewFormButton = () => {
           </DialogHeader>
           <Separator />
           <div className="flex gap-8 w-full p-10">
-            
             <BlankFormButton closeParent={closeDialog} />
-
 
             <div
               color="#6b7280"
@@ -91,7 +88,6 @@ const NewFormButton = () => {
                 </div>
               </div>
             </div>
-
 
             <div
               color="#6b7280"
@@ -215,11 +211,9 @@ const NewFormButton = () => {
                 </div>
               </div>
             </div>
-
-
           </div>
         </DialogContent>
-      </Dialog> 
+      </Dialog>
     </>
   );
 };
