@@ -15,7 +15,7 @@ export type FormElement = {
   }; //designerBtnElement
 
   mainComponent: React.FC<{ elementInstance: FormElementInstance }>; // designerComponent
-  previewComponent: React.FC; // formComponent
+  previewComponent: React.FC<{ elementInstance: FormElementInstance }>; // formComponent
   propertiesComponent: React.FC<{ elementInstance: FormElementInstance }>; //propertiesComponent
 }; // main form element type
 

@@ -6,6 +6,7 @@ import {
 
 import MainComponent from "./MainComponent";
 import PropertiesComponent from "./PropertiesComponent";
+import PreviewComponent from "./PreviewComponent";
 
 const type: ElementsType = "ShortAnswerField";
 
@@ -27,7 +28,7 @@ export const ShortAnswerFieldFormElement: FormElement = {
   }),
 
   mainComponent: MainComponent,
-  previewComponent: () => <div>preview Component</div>,
+  previewComponent: PreviewComponent,
   propertiesComponent: PropertiesComponent,
   draggableCardComponent: {
     icon: AlignCenter,

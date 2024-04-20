@@ -126,7 +126,7 @@ const PlaygroundMain = () => {
       >
         <div
           className={cn(
-            "w-full pb-6 sm:pb-20 bg-white justify-center max-w-[650px] flex flex-col sm:rounded-lg mt-0 relative py-4 px-2 z-10",
+            " w-full pb-6 sm:pb-20 bg-white justify-center max-w-[650px] flex flex-col sm:rounded-lg mt-0 relative py-4 px-2 z-10",
             droppable.isOver && "ring-2 ring-gray-300"
           )}
         >
@@ -139,7 +139,7 @@ const PlaygroundMain = () => {
           )}
 
           {elements.length > 0 && (
-            <div className="px-10 flex flex-col text-background w-full gap-6 p-4">
+            <div className=" px-10 flex flex-col text-background w-full gap-6 p-4">
               {elements.map((element) => {
                 return (
                   <PlaygroundElementWrapper
@@ -160,7 +160,7 @@ export default PlaygroundMain;
 
 const EmptyForm = () => {
   return (
-    <div className="flex h-full w-full flex-col mt-0">
+    <div className=" flex h-full w-full flex-col mt-0">
       <div>
         <div className="h-full w-full font-inter flex items-center text-slate-400 flex-col justify-center mt-5 mb-10">
           <MousePointerClick className="h-8 w-8 mb-4 text-gray-400" />

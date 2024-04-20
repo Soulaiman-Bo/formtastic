@@ -76,7 +76,8 @@ module.exports = {
         'inter': ['Inter', 'sans-serif'],
       },
       height: {
-        'screen-minus-98': 'calc(100vh - 98px)'
+        'screen-minus-98': 'calc(100vh - 98px)',
+        'screen-minus-58': 'calc(-59px + 100vh)'
       }
     },
   },
