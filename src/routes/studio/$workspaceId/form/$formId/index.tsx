@@ -2,8 +2,6 @@ import LeftSidebar from "@/components/LeftSidebar";
 import PlaygroundHeader from "@/components/PlaygroundHeader";
 import PlaygroundMain from "@/components/PlaygroundMain";
 import RightSidebar from "@/components/RightSidebar";
-import { PrivateAPI } from "@/lib/HttpClient";
-import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverLayWrapper from "@/components/DragOverLayWrapper";
@@ -29,27 +27,22 @@ function Playground() {
 
   const { formId, workspaceId } = Route.useParams();
 
-  const { data, isLoading } = useQuery({
-    queryKey: [`form-${formId}`],
-    queryFn: async () => {
-      const response = await PrivateAPI.get<Form>(
-        `workspaces/${workspaceId}/forms/${formId}`
-      );
-      return response.data;
-    },
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: [`form-${formId}`],
+  //   queryFn: async () => {
+  //     const response = await PrivateAPI.get<Form>(
+  //       `workspaces/${workspaceId}/forms/${formId}`
+  //     );
+  //     return response.data;
+  //   },
+  // });
+
+  console.log("playground rendered");
+
 
   const closeLeftSidebar = () => {
     setisSideBarOpen(false);
   };
-
-  if (isLoading) {
-    console.log("loading ...");
-  }
-
-  if (data) {
-    console.log(data);
-  }
 
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
