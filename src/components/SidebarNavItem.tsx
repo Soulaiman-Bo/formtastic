@@ -1,6 +1,12 @@
-import { Link } from "@tanstack/react-router";
+import { cn } from "@/lib/utils";
+import { Link, useParams } from "@tanstack/react-router";
 
 const SidebarNavItem = ({ name, id }: { name: string; id: string }) => {
+
+  const { workspaceId } = useParams({ strict: false }) as {
+    workspaceId: string;
+  };
+  
   function capitalizeFirstLetter(word: string) {
     if (typeof word !== "string" || word.length === 0) {
       return "";
@@ -15,11 +21,14 @@ const SidebarNavItem = ({ name, id }: { name: string; id: string }) => {
     return str;
   }
 
+
   return (
     <li>
       <Link to="/dashboard/$workspaceId" params={{ workspaceId: id }}>
-        <div className="bg-indigo-50 text-indigo-600 group flex rounded-md text-sm leading-6 font-semibold gap-x-3 p-2 my-1">
-          <span className="text-indigo-600 border-indigo-600 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white">
+        <div className={cn("bg-indigo-50 ring-1 ring-transparent text-indigo-600 group flex rounded-md text-sm leading-6 font-semibold gap-x-3 p-2 my-1",
+          workspaceId === id && " ring-indigo-600/80 "
+        )}>
+          <span className="text-indigo-600 border-indigo-700 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white">
             {capitalizeFirstLetter(name)}
           </span>
           {truncateString(name, 18)}

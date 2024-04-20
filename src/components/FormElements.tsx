@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ShortAnswerFieldFormElement } from "./FormFields/ShortAnswerField";
+import { ShortAnswerFieldFormElement } from "./FormFields/shortAnserField/ShortAnswerField";
 
 export type ElementsType = "ShortAnswerField";
 
@@ -23,7 +23,7 @@ export type FormElementInstance = {
   id: string;
   type: ElementsType;
   extraAttributes?: Record<string, any>;
-}; 
+};
 
 type FormElementsType = {
   [key in ElementsType]: FormElement;
@@ -33,7 +33,4 @@ export const FormElements: FormElementsType = {
   ShortAnswerField: ShortAnswerFieldFormElement,
 };
 
-
-
-
-// FormElements is the object that contains all Form fields 
+// FormElements is the object that contains all Form fields

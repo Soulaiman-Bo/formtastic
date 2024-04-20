@@ -24,6 +24,21 @@ const SidebarNavItems = () => {
 
   if (isError) return <FormErrorAlert message={error.message} />;
 
+  if (data && data.length === 0) {
+    return (
+      <div>
+        <div
+          className="p-4 text-sm text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300"
+          role="alert"
+        >
+          <span className="font-medium">No Workspaces!</span>
+          <span className="block mt-2"> Create You First Workspace</span>
+        </div>
+
+      </div>
+    );
+  }
+
   return (
     <ul role="list">
       {data?.map((item) => (
