@@ -6,7 +6,7 @@ export type ElementsType = "ShortAnswerField";
 export type FormElement = {
   type: ElementsType;
 
-  construct: (id: string) => FormElementInstance;
+  construct: (id: string, form_id: string) => FormElementInstance;
 
   draggableCardComponent: {
     icon: React.ElementType;
@@ -20,9 +20,13 @@ export type FormElement = {
 }; // main form element type
 
 export type FormElementInstance = {
-  id: string;
+  client_id: string;
+  _id?: string;
+  form_id: string;
   type: ElementsType;
-  extraAttributes?: Record<string, any>;
+  properties?: Record<string, any>;
+  updated_at?: string;
+  created_at?: string;
 };
 
 type FormElementsType = {

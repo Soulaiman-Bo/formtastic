@@ -2,8 +2,15 @@ import { Link } from "@tanstack/react-router";
 import { ImHome3 } from "react-icons/im";
 import { Button } from "./ui/button";
 import { Eye } from "lucide-react";
+import { FiUploadCloud } from "react-icons/fi";
 
-const PlaygroundHeader = ({ workspaceId, formId }: { workspaceId: string, formId: string }) => {
+const PlaygroundHeader = ({
+  workspaceId,
+  formId,
+}: {
+  workspaceId: string;
+  formId: string;
+}) => {
   return (
     <div className="bg-gray-50 border-b-[0.5px] border-gray-300 flex-shrink-0">
       <div className="relative" aria-label="Global">
@@ -33,16 +40,27 @@ const PlaygroundHeader = ({ workspaceId, formId }: { workspaceId: string, formId
             </div>
           </div>
 
-
           <div className="flex justify-end items-center py-[11px] pr-7 md:min-w-[310px] largeXl:min-w-[354px]">
             <div className="mr-4 flex">
-              <Link to="/studio/$workspaceId/form/$formId/preview" params={{formId: formId, workspaceId: workspaceId}}>
+              <Button className="text-gray-500" variant={"outline"}>
+                {/* <Eye className="mr-2 " /> */}
+                <FiUploadCloud className="mr-2 h-5 w-5" />
+                Save
+              </Button>
+            </div>
+
+            <div className="mr-4 flex">
+              <Link
+                to="/studio/$workspaceId/form/$formId/preview"
+                params={{ formId: formId, workspaceId: workspaceId }}
+              >
                 <Button className="text-gray-500" variant={"outline"}>
                   <Eye className="mr-2" />
                   Preview
                 </Button>
               </Link>
             </div>
+
             <div className="inline-block z-[14]">
               <div>
                 <Button className="h-[34px] px-3 !min-w-[100px]">

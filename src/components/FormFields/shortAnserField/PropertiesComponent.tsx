@@ -23,10 +23,10 @@ const propertiesSchema = z.object({
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
 type CustomInstance = FormElementInstance & {
-  extraAttributes: typeof extraAttributes;
+  properties: typeof properties;
 };
 
-const extraAttributes = {
+const properties = {
   question: "Write you Question here.",
   helperText: "Helper Text",
   required: false,
@@ -41,7 +41,7 @@ export default function PropertiesComponent({
   const element = elementInstance as CustomInstance;
 
   const { helperText, placeHolder, question, required } =
-    element.extraAttributes;
+    element.properties;
   const { updateElement } = usePlayground();
 
   const form = useForm<propertiesFormSchemaType>({
@@ -64,7 +64,7 @@ export default function PropertiesComponent({
       form.handleSubmit(applyChanges)();
     });
 
-    form.reset(element.extraAttributes);
+    form.reset(element.properties);
 
 
     return () => subscription.unsubscribe();
@@ -74,9 +74,9 @@ export default function PropertiesComponent({
 
   function applyChanges(values: propertiesFormSchemaType) {
     const { question, helperText, placeHolder, required } = values;
-    updateElement(element.id, {
+    updateElement(element.client_id, {
       ...element,
-      extraAttributes: {
+      properties: {
         question,
         helperText,
         placeHolder,

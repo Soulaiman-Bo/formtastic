@@ -70,7 +70,7 @@ function Playground() {
 
             return (
               <div className="px-10 flex flex-col text-background w-full gap-6 p-4">
-                <PreviewComponent key={element.id} elementInstance={element} />
+                <PreviewComponent key={element.client_id} elementInstance={element} />
               </div>
             );
           })}

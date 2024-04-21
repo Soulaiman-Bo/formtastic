@@ -38,7 +38,7 @@ const DragOverLayWrapper = () => {
 
   if (isDraggMainComponent) {
     const elementId = draggetItem.data?.current?.elementId;
-    const element = elements.find((el) => el.id === elementId);
+    const element = elements.find((el) => el.client_id === elementId);
     if (!element) component = <div>Element not found!</div>;
     else {
       const MainElementComponent = FormElements[element.type].mainComponent;

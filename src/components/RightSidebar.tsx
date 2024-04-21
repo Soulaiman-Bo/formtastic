@@ -20,8 +20,6 @@ const RightSidebar = ({ close }: { close: () => void }) => {
 
       {!selectedElement && <EmptyState />}
       {selectedElement && <PropertiesFormSidebar />}
-
-
     </div>
   );
 };
@@ -39,13 +37,14 @@ const EmptyState = () => {
   );
 };
 
+
 function PropertiesFormSidebar() {
   const { selectedElement } = usePlayground();
 
   if (!selectedElement) return null;
 
-  const PropertiesForm = FormElements[selectedElement?.type].propertiesComponent
-
+  const PropertiesForm =
+    FormElements[selectedElement?.type].propertiesComponent;
 
   return <PropertiesForm elementInstance={selectedElement} />;
 }

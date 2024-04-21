@@ -11,34 +11,14 @@ export const Route = createFileRoute("/studio/$workspaceId/form/$formId/")({
   component: Playground,
 });
 
-interface Form {
-  _id: string;
-  name: string;
-  description?: string;
-  published: boolean;
-  submittions: number;
-  visits: number;
-  fields: unknown[];
-}
-
 function Playground() {
-  const {isSideBarOpen, setisSideBarOpen} = usePlayground()
-
+  const { isSideBarOpen, setisSideBarOpen } = usePlayground();
 
   const { formId, workspaceId } = Route.useParams();
 
-  // const { data, isLoading } = useQuery({
-  //   queryKey: [`form-${formId}`],
-  //   queryFn: async () => {
-  //     const response = await PrivateAPI.get<Form>(
-  //       `workspaces/${workspaceId}/forms/${formId}`
-  //     );
-  //     return response.data;
-  //   },
-  // });
+  const formSchem = Route.useLoaderData();
 
-  console.log("playground rendered");
-
+  console.log(formSchem);
 
   const closeLeftSidebar = () => {
     setisSideBarOpen(false);
@@ -63,7 +43,7 @@ function Playground() {
           <div className="flex justify-center w-full h-full flex-col items-center">
             <div className="flex w-full h-full justify-center">
               <LeftSidebar />
-              <PlaygroundMain />
+              <PlaygroundMain formId={formId} />
               {isSideBarOpen && <RightSidebar close={closeLeftSidebar} />}
             </div>
           </div>

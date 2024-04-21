@@ -16,75 +16,9 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Label } from "./ui/label";
-import { PrivateAPI } from "@/lib/HttpClient";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
-import { toast } from "./ui/use-toast";
-// import { useNavigate } from "@tanstack/react-router";
-
-type WorkspaceResponse = {
-  id: string;
-  name: string;
-};
-
-const createWorkspaceApi = async (
-  values: NewWorkspaceSchemaType
-): Promise<WorkspaceResponse> => {
-  try {
-    const response = await PrivateAPI.post<WorkspaceResponse>(
-      "/workspaces",
-      values
-    );
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error(
-        error.response.data.message || "Failed to create workspace"
-      );
-    } else {
-      throw new Error("An unexpected error occurred");
-    }
-  }
-};
-
-function useCreateWorkspace(onSuccess: () => void, resetForm: () => void) {
-  const queryClient = useQueryClient();
-  // const navigate = useNavigate({ from: "/login" });
-
-  return useMutation<WorkspaceResponse, Error, NewWorkspaceSchemaType>({
-    mutationFn: (values) => {
-      return createWorkspaceApi(values);
-    },
-    onSuccess: (data: WorkspaceResponse) => {
-      console.log(`Workspace '${data.name}' created successfully!`);
-
-      queryClient.setQueryData(
-        ["workspaces"],
-        (old: WorkspaceResponse[] | undefined) => [...old!, data]
-      );
-      resetForm();
-      onSuccess();
-
-      
-
-
-      toast({
-        title: "Success",
-        variant: "success",
-        description: "Workspace created successfully",
-      });
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
-  });
-}
+import useCreateWorkspace from "@/hooks/useCreateWorkspace";
 
 const NewWorkspaceButton = () => {
   const [isOpen, setIsOpen] = useState(false); // State to control dialog visibility

@@ -1,7 +1,7 @@
 import { FormElementInstance } from "@/components/FormElements";
 import { Input } from "@/components/ui/input";
 
-const extraAttributes = {
+const properties = {
   question: "Write you Question here.",
   helperText: "Helper Text",
   required: false,
@@ -10,7 +10,7 @@ const extraAttributes = {
 
 
 type CustomInstance = FormElementInstance & {
-  extraAttributes: typeof extraAttributes;
+  properties: typeof properties;
 };
 
 
@@ -21,7 +21,7 @@ export default function MainComponent({
 }) {
   const element = elementInstance as CustomInstance;
   const { helperText, placeHolder, question, required } =
-    element.extraAttributes;
+    element.properties;
 
   return (
     <div className=" w-full">

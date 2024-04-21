@@ -10,7 +10,7 @@ import PreviewComponent from "./PreviewComponent";
 
 const type: ElementsType = "ShortAnswerField";
 
-const extraAttributes = {
+const properties = {
   question: "Write you Question here.",
   helperText: "Helper Text",
   required: false,
@@ -21,10 +21,11 @@ const extraAttributes = {
 
 export const ShortAnswerFieldFormElement: FormElement = {
   type,
-  construct: (id: string) => ({
-    id,
+  construct: (id: string, form_id: string) => ({
+    client_id: id,
     type,
-    extraAttributes,
+    form_id,
+    properties,
   }),
 
   mainComponent: MainComponent,
