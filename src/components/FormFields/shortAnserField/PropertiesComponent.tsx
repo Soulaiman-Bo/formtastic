@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import usePlayground from "@/hooks/usePlayground";
+import useElementsStore from "@/context/useElementsStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
@@ -42,7 +42,7 @@ export default function PropertiesComponent({
 
   const { helperText, placeHolder, question, required } =
     element.properties;
-  const { updateElement } = usePlayground();
+  const { updateElement } = useElementsStore();
 
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),

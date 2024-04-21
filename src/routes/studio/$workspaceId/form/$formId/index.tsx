@@ -5,20 +5,19 @@ import RightSidebar from "@/components/RightSidebar";
 import { createFileRoute } from "@tanstack/react-router";
 import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverLayWrapper from "@/components/DragOverLayWrapper";
-import usePlayground from "@/hooks/usePlayground";
+import useSidebarStore from "@/context/useSidebarStore";
 
 export const Route = createFileRoute("/studio/$workspaceId/form/$formId/")({
   component: Playground,
 });
 
 function Playground() {
-  const { isSideBarOpen, setisSideBarOpen } = usePlayground();
+  const { isSideBarOpen, setisSideBarOpen } = useSidebarStore();
 
   const { formId, workspaceId } = Route.useParams();
 
-  const formSchem = Route.useLoaderData();
 
-  console.log(formSchem);
+  
 
   const closeLeftSidebar = () => {
     setisSideBarOpen(false);
@@ -30,6 +29,7 @@ function Playground() {
     },
   });
   const sensors = useSensors(mouseSensor);
+
 
   return (
     <>
@@ -52,4 +52,6 @@ function Playground() {
       </div>
     </>
   );
+
+
 }

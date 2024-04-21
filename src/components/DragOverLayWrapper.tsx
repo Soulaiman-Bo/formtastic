@@ -2,11 +2,12 @@ import { Active, DragOverlay, useDndMonitor } from "@dnd-kit/core";
 import { useState } from "react";
 import { DraggableCardElementGhost } from "./DraggableCardElement";
 import { ElementsType, FormElements } from "./FormElements";
-import usePlayground from "@/hooks/usePlayground";
+import useElementsStore from "@/context/useElementsStore";
 
 const DragOverLayWrapper = () => {
   const [draggetItem, setDraggetItem] = useState<Active | null>();
-  const { elements } = usePlayground();
+  const { elements } = useElementsStore();
+
 
   useDndMonitor({
     onDragStart: (event) => {

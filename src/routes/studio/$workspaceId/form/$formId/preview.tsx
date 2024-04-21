@@ -1,6 +1,6 @@
 import { FormElements } from "@/components/FormElements";
 import { Button } from "@/components/ui/button";
-import usePlayground from "@/hooks/usePlayground";
+import useElementsStore from "@/context/useElementsStore";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { ImHome3 } from "react-icons/im";
@@ -12,7 +12,7 @@ export const Route = createFileRoute(
 });
 
 function Playground() {
-  const { elements } = usePlayground();
+  const { elements } = useElementsStore();
 
   const { formId, workspaceId } = Route.useParams();
   return (

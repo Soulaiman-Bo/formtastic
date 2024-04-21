@@ -6,12 +6,30 @@ import {
   FormElementInstance,
   FormElements,
 } from "./FormElements";
-import usePlayground from "@/hooks/usePlayground";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useFormSchema from "@/hooks/useFormSchema";
+import { v4 as uuidv4 } from "uuid";
+import useSelectedElementStore from "@/context/useSelectedElementStore";
+import useElementsStore from "@/context/useElementsStore";
+import useSidebarStore from "@/context/useSidebarStore";
 
-const PlaygroundMain = () => {
-  const { elements, addElement, setSelectedElement, removeElement } =
-    usePlayground();
+type FormSchema = {
+  form_id: string;
+  type: string;
+  properties: Record<string, any>;
+  updated_at: string;
+  created_at: string;
+  _id: string;
+};
+
+const PlaygroundMain = ({ formId }: { formId: string }) => {
+  const { elements, addElement, removeElement } = useElementsStore();
+
+  const { setSelectedElement } = useSelectedElementStore();
+
+  // const {isLoading, elements } = useFormSchema(formId)
+
+  const isLoading = false;
 
   const droppable = useDroppable({
     id: "playground-drop-area",
@@ -36,8 +54,10 @@ const PlaygroundMain = () => {
 
       if (droppingSidebarCardOverPlaygroundDropArea) {
         const type = active.data?.current?.type;
-        const newElement =
-          FormElements[type as ElementsType].construct(idGen());
+        const newElement = FormElements[type as ElementsType].construct(
+          idGen(),
+          formId
+        );
         addElement(elements.length, newElement);
       }
 
@@ -57,12 +77,16 @@ const PlaygroundMain = () => {
       // senario 2
       if (droppingSidebarBtnOverPlaygroundElement) {
         const type = active.data?.current?.type;
-        const newElement =
-          FormElements[type as ElementsType].construct(idGen());
+        const newElement = FormElements[type as ElementsType].construct(
+          idGen(),
+          formId
+        );
 
         const overId = over.data?.current?.elementId;
 
-        const overElementIndex = elements.findIndex((el) => el.id === overId);
+        const overElementIndex = elements.findIndex(
+          (el) => el.client_id === overId
+        );
 
         if (overElementIndex === -1) {
           throw new Error("element not found");
@@ -90,9 +114,11 @@ const PlaygroundMain = () => {
         const overId = over.data?.current?.elementId;
 
         const activeElementIndex = elements.findIndex(
-          (el) => el.id === activeId
+          (el) => el.client_id === activeId
         );
-        const overElementIndex = elements.findIndex((el) => el.id === overId);
+        const overElementIndex = elements.findIndex(
+          (el) => el.client_id === overId
+        );
 
         if (activeElementIndex === -1 || overElementIndex === -1) {
           throw new Error("element not found");
@@ -130,24 +156,32 @@ const PlaygroundMain = () => {
             droppable.isOver && "ring-2 ring-gray-300"
           )}
         >
-          {!droppable.isOver && elements.length === 0 && <EmptyForm />}
-
-          {droppable.isOver && elements.length === 0 && (
-            <div className="p-4 w-full">
-              <div className="h-[10px] rounded-md bg-primary/80"></div>
+          {isLoading ? (
+            <div className="debug2 flex h-full w-full flex-col mt-0">
+              loading ....
             </div>
-          )}
+          ) : (
+            <div>
+              {!droppable.isOver && elements.length === 0 && <EmptyForm />}
 
-          {elements.length > 0 && (
-            <div className=" px-10 flex flex-col text-background w-full gap-6 p-4">
-              {elements.map((element) => {
-                return (
-                  <PlaygroundElementWrapper
-                    element={element}
-                    key={element.id}
-                  />
-                );
-              })}
+              {droppable.isOver && elements.length === 0 && (
+                <div className="p-4 w-full">
+                  <div className="h-[10px] rounded-md bg-primary/80"></div>
+                </div>
+              )}
+
+              {elements.length > 0 && (
+                <div className=" px-10 flex flex-col text-background w-full gap-6 p-4">
+                  {elements.map((element) => {
+                    return (
+                      <PlaygroundElementWrapper
+                        element={element}
+                        key={element.client_id}
+                      />
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -188,7 +222,8 @@ const EmptyForm = () => {
 };
 
 function idGen() {
-  return Math.floor(Math.random() * 10001).toString();
+  const randomKey = uuidv4();
+  return randomKey;
 }
 
 function PlaygroundElementWrapper({
@@ -198,36 +233,35 @@ function PlaygroundElementWrapper({
 }) {
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
 
-  const {
-    removeElement,
-    selectedElement,
-    setSelectedElement,
-    setisSideBarOpen,
-  } = usePlayground();
+  const {setisSideBarOpen } = useSidebarStore();
+
+  const { removeElement } = useElementsStore();
+
+  const { setSelectedElement, selectedElement } = useSelectedElementStore();
 
   const topHalf = useDroppable({
-    id: element.id + "-top",
+    id: element.client_id + "-top",
     data: {
       type: element.type,
-      elementId: element.id,
+      elementId: element.client_id,
       isTopHalfPlaygroundElement: true,
     },
   });
 
   const bottomHalf = useDroppable({
-    id: element.id + "-bottom",
+    id: element.client_id + "-bottom",
     data: {
       type: element.type,
-      elementId: element.id,
+      elementId: element.client_id,
       isBottomHalfPlaygroundElement: true,
     },
   });
 
   const draggable = useDraggable({
-    id: element.id + "-drag-handler",
+    id: element.client_id + "-drag-handler",
     data: {
       type: element.type,
-      elementId: element.id,
+      elementId: element.client_id,
       isPlaygroundElement: true,
     },
   });
@@ -235,8 +269,6 @@ function PlaygroundElementWrapper({
   if (draggable.isDragging) return null;
 
   const MainComponent = FormElements[element.type].mainComponent;
-
-  console.log(selectedElement);
 
   return (
     <div
@@ -246,7 +278,8 @@ function PlaygroundElementWrapper({
       className={cn(
         "relative flex flex-col  hover:cursor-pointer rounded-md ",
         mouseIsOver && "ring-2 ring-primary/30 ring-inset",
-        selectedElement?.id === element.id && "ring-2 ring-primary ring-inset"
+        selectedElement?.client_id === element.client_id &&
+          "ring-2 ring-primary ring-inset"
       )}
       onMouseEnter={() => {
         setMouseIsOver(true);
@@ -278,12 +311,12 @@ function PlaygroundElementWrapper({
         <div className="absolute bottom-0 w-full rounded-md h-[7px] bg-primary rounded-t-none" />
       )}
 
-      {selectedElement?.id === element.id && (
+      {selectedElement?.client_id === element.client_id && (
         <div className="absolut flex gap-3 ring-2 w-fit">
           <button
             onClick={(e) => {
               e.stopPropagation();
-              removeElement(element.id);
+              removeElement(element.client_id);
             }}
           >
             <Trash color="#555" />
