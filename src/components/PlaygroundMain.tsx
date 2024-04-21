@@ -6,28 +6,25 @@ import {
   FormElementInstance,
   FormElements,
 } from "./FormElements";
-import { useEffect, useState } from "react";
-import useFormSchema from "@/hooks/useFormSchema";
+import {  useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useSelectedElementStore from "@/context/useSelectedElementStore";
 import useElementsStore from "@/context/useElementsStore";
 import useSidebarStore from "@/context/useSidebarStore";
 
-type FormSchema = {
-  form_id: string;
-  type: string;
-  properties: Record<string, any>;
-  updated_at: string;
-  created_at: string;
-  _id: string;
-};
+// type FormSchema = {
+//   form_id: string;
+//   type: string;
+//   properties: Record<string, any>;
+//   updated_at: string;
+//   created_at: string;
+//   _id: string;
+// };
 
 const PlaygroundMain = ({ formId }: { formId: string }) => {
   const { elements, addElement, removeElement } = useElementsStore();
 
   const { setSelectedElement } = useSelectedElementStore();
-
-  // const {isLoading, elements } = useFormSchema(formId)
 
   const isLoading = false;
 

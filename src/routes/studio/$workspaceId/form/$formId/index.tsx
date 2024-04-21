@@ -1,35 +1,26 @@
-import LeftSidebar from "@/components/LeftSidebar";
 import PlaygroundHeader from "@/components/PlaygroundHeader";
-import PlaygroundMain from "@/components/PlaygroundMain";
-import RightSidebar from "@/components/RightSidebar";
 import { createFileRoute } from "@tanstack/react-router";
 import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverLayWrapper from "@/components/DragOverLayWrapper";
-import useSidebarStore from "@/context/useSidebarStore";
+import Main from "@/components/Main";
+import useFormSchema from "@/hooks/useFormSchema";
 
 export const Route = createFileRoute("/studio/$workspaceId/form/$formId/")({
   component: Playground,
 });
 
 function Playground() {
-  const { isSideBarOpen, setisSideBarOpen } = useSidebarStore();
-
   const { formId, workspaceId } = Route.useParams();
-
-
-  
-
-  const closeLeftSidebar = () => {
-    setisSideBarOpen(false);
-  };
 
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
       distance: 10,
     },
   });
-  const sensors = useSensors(mouseSensor);
 
+  const { isLoading } = useFormSchema(formId);
+
+  const sensors = useSensors(mouseSensor);
 
   return (
     <>
@@ -42,9 +33,7 @@ function Playground() {
         <DndContext sensors={sensors}>
           <div className="flex justify-center w-full h-full flex-col items-center">
             <div className="flex w-full h-full justify-center">
-              <LeftSidebar />
-              <PlaygroundMain formId={formId} />
-              {isSideBarOpen && <RightSidebar close={closeLeftSidebar} />}
+              {isLoading ? <p>Loading....</p> : <Main formId={formId} />}
             </div>
           </div>
           <DragOverLayWrapper />
@@ -52,6 +41,4 @@ function Playground() {
       </div>
     </>
   );
-
-
 }
