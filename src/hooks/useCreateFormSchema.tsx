@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FormElementInstance } from "@/components/FormElements";
 import { toast } from "@/components/ui/use-toast";
 import { PrivateAPI } from "@/lib/HttpClient";

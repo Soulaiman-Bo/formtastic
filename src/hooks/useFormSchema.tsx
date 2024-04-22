@@ -1,8 +1,9 @@
-import { useQueries } from "@tanstack/react-query";
+import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { PrivateAPI } from "@/lib/HttpClient";
 import { FormElementInstance } from "@/components/FormElements";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useElementsStore from "@/context/useElementsStore";
+import axios from "axios";
 
 type Form = {
   _id: string;
@@ -20,55 +21,108 @@ type Form = {
 
 const useFormSchema = (formId: string, workspaceId: string) => {
   const { setAllElements, elements, setOrder } = useElementsStore();
-
-  const results = useQueries({
-    queries: [
-      {
-        queryKey: [`formSchema-${formId}`],
-        queryFn: async () => {
-          const response = await PrivateAPI.get<FormElementInstance[]>(
-            `/form/${formId}/formschema`
-          );
-          return response.data;
-        },
-      },
-      {
-        queryKey: [`forms-${workspaceId}`],
-        queryFn: async () => {
-          const response = await PrivateAPI.get<Form[]>(
-            `workspaces/${workspaceId}/forms`
-          );
-          return response.data;
-        },
-      },
-    ],
-  });
-
-  const formSchemaResult = results[1];
-  const formsResult = results[0];
+  const [data, setData] = useState({ formSchema: null, forms: null });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (
-      formSchemaResult.isSuccess &&
-      formsResult.isSuccess &&
-      formSchemaResult.data &&
-      formsResult.data
-    ) {
-      setAllElements(formsResult.data);
-      setOrder(formSchemaResult.data[0].formfields_order);
+    async function fetchData() {
+      try {
+        setIsLoading(true);
+
+        const formSchemaRequest = PrivateAPI.get(`/form/${formId}/formschema`);
+        const formsRequest = PrivateAPI.get(`workspaces/${workspaceId}/forms`);
+        const [formSchemaResponse, formsResponse] = await axios.all([
+          formSchemaRequest,
+          formsRequest,
+        ]);
+
+        setData({
+          formSchema: formSchemaResponse.data,
+          forms: formsResponse.data,
+        });
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }, [
-    formSchemaResult.isSuccess,
-    formsResult.isSuccess,
-    formSchemaResult.data,
-    formsResult.data,
-    setAllElements,
-    setOrder,
-  ]);
+    fetchData();
+  }, [formId, workspaceId]);
 
-  const isLoading = formSchemaResult.isLoading || formSchemaResult.isLoading;
+  useEffect(() => {
+    if (data.formSchema && data.forms) {
+      console.log(data.formSchema);
+      console.log(data.forms[0].formfields_order);
+      setAllElements(data.formSchema);
+      if (data.forms[0].formfields_order) {
+        setOrder(data.forms[0].formfields_order);
+      }
+    }
+  }, [data.formSchema, data.forms, setAllElements, setOrder]);
 
-  return { elements, isLoading };
+  return { elements, isLoading, error };
 };
+
+// ===================================
+
+// const useFormSchema = (formId: string, workspaceId: string) => {
+
+//   const {setAllElements, elements, setOrder } = useElementsStore();
+
+//   const results = useQueries({
+//     queries: [
+//       {
+//         queryKey: [`formSchema-${formId}`],
+//         queryFn: async () => {
+//           const response = await PrivateAPI.get<FormElementInstance[]>(
+//             `/form/${formId}/formschema`
+//           );
+//           return response.data;
+//         },
+//         staleTime: 0,
+
+//       },
+//       {
+//         queryKey: [`forms-${workspaceId}`],
+//         queryFn: async () => {
+//           const response = await PrivateAPI.get<Form[]>(
+//             `workspaces/${workspaceId}/forms`
+//           );
+//           return response.data;
+//         },
+//         staleTime: 0
+//       },
+//     ],
+//   });
+
+//   const formSchemaResult = results[1];
+//   const formsResult = results[0];
+
+//   useEffect(() => {
+//     if (
+//       formSchemaResult.isSuccess &&
+//       formsResult.isSuccess &&
+//       formSchemaResult.data &&
+//       formsResult.data
+//     ) {
+//       setAllElements(formsResult.data);
+//       if (formSchemaResult.data[0].formfields_order) {
+//         setOrder(formSchemaResult.data[0].formfields_order);
+//       }
+//     }
+//   }, [
+//     formSchemaResult.isSuccess,
+//     formsResult.isSuccess,
+//     formSchemaResult.data,
+//     formsResult.data,
+//     setAllElements,
+//     setOrder,
+//   ]);
+
+//   const isLoading = formSchemaResult.isLoading || formSchemaResult.isLoading;
+
+//   return { elements, isLoading };
+// };
 
 export default useFormSchema;

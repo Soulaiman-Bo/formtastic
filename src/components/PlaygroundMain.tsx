@@ -11,20 +11,26 @@ import { v4 as uuidv4 } from "uuid";
 import useSelectedElementStore from "@/context/useSelectedElementStore";
 import useElementsStore from "@/context/useElementsStore";
 import useSidebarStore from "@/context/useSidebarStore";
-import { Separator } from "./ui/separator";
+import { useParams } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 
-// type FormSchema = {
-//   form_id: string;
-//   type: string;
-//   properties: Record<string, any>;
-//   updated_at: string;
-//   created_at: string;
-//   _id: string;
-// };
+const PlaygroundMain = () => {
+  const queryClient = useQueryClient();
 
-const PlaygroundMain = ({ formId }: { formId: string }) => {
-  const { elements, addElement, removeElement, order } = useElementsStore();
+  const { elements, addElement, removeElemtnFromOrder, order, updateOrder } =
+    useElementsStore();
+
   const { setSelectedElement } = useSelectedElementStore();
+
+  const { formId, workspaceId } = useParams({ strict: false }) as {
+    workspaceId: string;
+    formId: string;
+  };
+
+  // const invalidate = () => {
+  //   queryClient.invalidateQueries({ queryKey: [`formSchema-${formId}`] });
+  //   queryClient.invalidateQueries({ queryKey: [`forms-${workspaceId}`] });
+  // };
 
   const droppable = useDroppable({
     id: "playground-drop-area",
@@ -56,7 +62,7 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
         );
 
         // call here
-        addElement(elements.length, newElement, formId);
+        addElement(elements.length, newElement, formId, workspaceId);
       }
 
       const isDroppingOverPlaygroundElementTopHalf =
@@ -75,6 +81,7 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
       // adding new element at a certain index
       if (droppingSidebarBtnOverPlaygroundElement) {
         const type = active.data?.current?.type;
+
         const newElement = FormElements[type as ElementsType].construct(
           idGen(),
           formId
@@ -90,13 +97,15 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
           throw new Error("element not found");
         }
 
+        // index of the place
         let indexForNewElement = overElementIndex;
 
         if (isDroppingOverPlaygroundElementBottomHalf) {
           indexForNewElement = overElementIndex + 1;
         }
 
-        addElement(indexForNewElement, newElement, formId);
+        addElement(indexForNewElement, newElement, formId, workspaceId);
+
         return;
       }
 
@@ -113,17 +122,24 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
         const activeElementIndex = elements.findIndex(
           (el) => el.client_id === activeId
         );
+        console.log({ activeId });
+
         const overElementIndex = elements.findIndex(
           (el) => el.client_id === overId
         );
+        console.log({ overId });
 
         if (activeElementIndex === -1 || overElementIndex === -1) {
           throw new Error("element not found");
         }
 
+        if (activeId === overId) {
+          return;
+        }
+
         const activeElement = { ...elements[activeElementIndex] };
 
-        removeElement(activeId);
+        removeElemtnFromOrder(activeId)
 
         let indexForNewElement = overElementIndex;
 
@@ -131,7 +147,14 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
           indexForNewElement = overElementIndex + 1;
         }
 
-        addElement(indexForNewElement, activeElement, formId);
+        // addElement(indexForNewElement, activeElement, formId, workspaceId);
+        updateOrder(
+          indexForNewElement,
+          activeElement,
+          formId,
+          activeId,
+          workspaceId
+        );
       }
     },
   });
@@ -163,10 +186,6 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
 
           {elements.length > 0 && (
             <div className=" px-10 flex flex-col text-background w-full gap-6 p-4">
-
-
-              <Separator className="my-5" />
-
               {order.map((clientId) => {
                 const element = elements.find(
                   (el) => el.client_id === clientId
@@ -231,6 +250,10 @@ function PlaygroundElementWrapper({
 
   const { setisSideBarOpen } = useSidebarStore();
 
+  // const queryClient = useQueryClient();
+  // const create = useElementsStore(queryClient);
+  // const {removeElement,} = create()
+
   const { removeElement } = useElementsStore();
 
   const { setSelectedElement, selectedElement } = useSelectedElementStore();
@@ -262,7 +285,7 @@ function PlaygroundElementWrapper({
     },
   });
 
-  if (draggable.isDragging) return null;
+  // if (draggable.isDragging) return null;
 
   const MainComponent = FormElements[element.type].mainComponent;
 
@@ -273,6 +296,7 @@ function PlaygroundElementWrapper({
       {...draggable.attributes}
       className={cn(
         "relative flex flex-col  hover:cursor-pointer rounded-md ",
+        draggable.isDragging && "opacity-20 bg-gray-100",
         mouseIsOver && "ring-2 ring-primary/30 ring-inset",
         selectedElement?.client_id === element.client_id &&
           "ring-2 ring-primary ring-inset"

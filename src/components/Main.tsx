@@ -3,16 +3,17 @@ import LeftSidebar from "./LeftSidebar";
 import PlaygroundMain from "./PlaygroundMain";
 import RightSidebar from "./RightSidebar";
 
-const Main = ({formId} : {formId: string}) => {
+const Main = () => {
   const { isSideBarOpen, setisSideBarOpen } = useSidebarStore();
 
   const closeLeftSidebar = () => {
     setisSideBarOpen(false);
   };
+  
   return (
     <>
       <LeftSidebar />
-      <PlaygroundMain formId={formId} />
+      <PlaygroundMain />
       {isSideBarOpen && <RightSidebar close={closeLeftSidebar} />}
     </>
   );

@@ -18,7 +18,11 @@ function Playground() {
     },
   });
 
+
+
   const { isLoading } = useFormSchema(formId, workspaceId);
+
+  
 
   const sensors = useSensors(mouseSensor);
 
@@ -33,7 +37,7 @@ function Playground() {
         <DndContext sensors={sensors}>
           <div className="flex justify-center w-full h-full flex-col items-center">
             <div className="flex w-full h-full justify-center">
-              {isLoading ? <p>Loading....</p> : <Main formId={formId} />}
+              {isLoading ? <p>Loading....</p> : <Main  />}
             </div>
           </div>
           <DragOverLayWrapper />
