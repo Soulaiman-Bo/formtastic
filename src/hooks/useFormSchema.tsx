@@ -4,7 +4,6 @@ import { FormElementInstance } from "@/components/FormElements";
 import { useEffect } from "react";
 import useElementsStore from "@/context/useElementsStore";
 
-
 // type FormSchema = {
 //   form_id: string;
 //   type: string;
@@ -14,10 +13,8 @@ import useElementsStore from "@/context/useElementsStore";
 //   id: string;
 // };
 
-
-const useFormSchema = ( formId: string ) => {
-
-  const { setAllElements, elements } = useElementsStore();  
+const useFormSchema = (formId: string) => {
+  const { setAllElements, elements } = useElementsStore();
 
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: [`formSchema-${formId}`],
@@ -29,8 +26,8 @@ const useFormSchema = ( formId: string ) => {
     },
   });
 
- useEffect(() => {
-    if (isSuccess && data) {      
+  useEffect(() => {
+    if (isSuccess && data) {
       console.log("Setting elements after successful fetch", { data });
       setAllElements(data);
     }
