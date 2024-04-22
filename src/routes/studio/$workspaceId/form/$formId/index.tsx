@@ -18,7 +18,7 @@ function Playground() {
     },
   });
 
-  const { isLoading } = useFormSchema(formId);
+  const { isLoading } = useFormSchema(formId, workspaceId);
 
   const sensors = useSensors(mouseSensor);
 

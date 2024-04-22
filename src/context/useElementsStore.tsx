@@ -7,6 +7,7 @@ interface ElementsState {
   elements: FormElementInstance[];
   isLoading: boolean;
   error: string | null;
+  order: string[];
   setElements: (elements: FormElementInstance[]) => void;
   addElement: (
     index: number,
@@ -16,6 +17,7 @@ interface ElementsState {
   removeElement: (id: string) => void;
   updateElement: (id: string, element: FormElementInstance) => void;
   setAllElements: (elements: FormElementInstance[]) => void;
+  setOrder: (order: string[]) => void;
 }
 
 type FormSchemaResponse = {
@@ -31,16 +33,27 @@ const useElementsStore = create<ElementsState>((set, get) => ({
   elements: [],
   isLoading: false,
   error: null,
+  order: [],
 
-  setElements: (elements: FormElementInstance[]) => set({ elements }),
+  setElements: (elements: FormElementInstance[]) => {
+    set({ elements, order: elements.map((el) => el.client_id) });
+  },
+  setOrder: (order: string[]) => set({ order }),
 
   addElement: (index: number, element: FormElementInstance, formId: string) => {
     const previousElements = get().elements;
+    const previousOrders = get().order;
 
     const newElements = [...previousElements];
     newElements.splice(index, 0, element);
 
-    set({ elements: newElements, isLoading: true });
+    const newOrder = [...previousOrders];
+    newOrder.splice(index, 0, element.client_id);
+
+    set({ elements: newElements, order: newOrder, isLoading: true });
+
+    console.log({newOrder});
+    
 
     debounce(() => {
       const saveElement = async () => {
@@ -50,10 +63,12 @@ const useElementsStore = create<ElementsState>((set, get) => ({
             element
           );
 
+
+
           set({ isLoading: false });
         } catch (error) {
           console.error(error);
-          set({ elements: previousElements });
+          set({ elements: previousElements, order: previousOrders });
         }
       };
       saveElement();
@@ -61,9 +76,12 @@ const useElementsStore = create<ElementsState>((set, get) => ({
   },
 
   removeElement: (id: string) => {
-    set((state) => ({
-      elements: state.elements.filter((element) => element.client_id !== id),
-    }));
+    const elements = get().elements.filter(
+      (element) => element.client_id !== id
+    );
+    const order = get().order.filter((clientId) => clientId !== id);
+
+    set({ elements, order });
   },
 
   updateElement: (id: string, element: FormElementInstance) => {

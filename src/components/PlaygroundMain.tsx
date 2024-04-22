@@ -6,11 +6,12 @@ import {
   FormElementInstance,
   FormElements,
 } from "./FormElements";
-import {  useState } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useSelectedElementStore from "@/context/useSelectedElementStore";
 import useElementsStore from "@/context/useElementsStore";
 import useSidebarStore from "@/context/useSidebarStore";
+import { Separator } from "./ui/separator";
 
 // type FormSchema = {
 //   form_id: string;
@@ -22,11 +23,8 @@ import useSidebarStore from "@/context/useSidebarStore";
 // };
 
 const PlaygroundMain = ({ formId }: { formId: string }) => {
-  const { elements, addElement, removeElement } = useElementsStore();
-
+  const { elements, addElement, removeElement, order } = useElementsStore();
   const { setSelectedElement } = useSelectedElementStore();
-
-  const isLoading = false;
 
   const droppable = useDroppable({
     id: "playground-drop-area",
@@ -49,13 +47,16 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
       const droppingSidebarCardOverPlaygroundDropArea =
         isDraggableCardComponent && isDroppingOverPlaygroundDropArea;
 
+      // adding new Element at the bottom
       if (droppingSidebarCardOverPlaygroundDropArea) {
         const type = active.data?.current?.type;
         const newElement = FormElements[type as ElementsType].construct(
           idGen(),
           formId
         );
-        addElement(elements.length, newElement);
+
+        // call here
+        addElement(elements.length, newElement, formId);
       }
 
       const isDroppingOverPlaygroundElementTopHalf =
@@ -71,7 +72,7 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
       const droppingSidebarBtnOverPlaygroundElement =
         isDraggableCardComponent && isDroppingOverPlaygroundElement;
 
-      // senario 2
+      // adding new element at a certain index
       if (droppingSidebarBtnOverPlaygroundElement) {
         const type = active.data?.current?.type;
         const newElement = FormElements[type as ElementsType].construct(
@@ -95,12 +96,11 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
           indexForNewElement = overElementIndex + 1;
         }
 
-        addElement(indexForNewElement, newElement);
+        addElement(indexForNewElement, newElement, formId);
         return;
       }
 
-      // Third scenario
-
+      // draging an element chnaging order
       const isDraggingMainElement = active.data?.current?.isPlaygroundElement;
 
       const draggingMainComponentOverMainComponent =
@@ -131,7 +131,7 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
           indexForNewElement = overElementIndex + 1;
         }
 
-        addElement(indexForNewElement, activeElement);
+        addElement(indexForNewElement, activeElement, formId);
       }
     },
   });
@@ -153,32 +153,31 @@ const PlaygroundMain = ({ formId }: { formId: string }) => {
             droppable.isOver && "ring-2 ring-gray-300"
           )}
         >
-          {isLoading ? (
-            <div className="debug2 flex h-full w-full flex-col mt-0">
-              loading ....
+          {!droppable.isOver && elements.length === 0 && <EmptyForm />}
+
+          {droppable.isOver && elements.length === 0 && (
+            <div className="p-4 w-full">
+              <div className="h-[10px] rounded-md bg-primary/80"></div>
             </div>
-          ) : (
-            <div>
-              {!droppable.isOver && elements.length === 0 && <EmptyForm />}
+          )}
 
-              {droppable.isOver && elements.length === 0 && (
-                <div className="p-4 w-full">
-                  <div className="h-[10px] rounded-md bg-primary/80"></div>
-                </div>
-              )}
+          {elements.length > 0 && (
+            <div className=" px-10 flex flex-col text-background w-full gap-6 p-4">
 
-              {elements.length > 0 && (
-                <div className=" px-10 flex flex-col text-background w-full gap-6 p-4">
-                  {elements.map((element) => {
-                    return (
-                      <PlaygroundElementWrapper
-                        element={element}
-                        key={element.client_id}
-                      />
-                    );
-                  })}
-                </div>
-              )}
+
+              <Separator className="my-5" />
+
+              {order.map((clientId) => {
+                const element = elements.find(
+                  (el) => el.client_id === clientId
+                );
+                return element ? (
+                  <PlaygroundElementWrapper
+                    key={element.client_id}
+                    element={element}
+                  />
+                ) : null;
+              })}
             </div>
           )}
         </div>
@@ -230,7 +229,7 @@ function PlaygroundElementWrapper({
 }) {
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
 
-  const {setisSideBarOpen } = useSidebarStore();
+  const { setisSideBarOpen } = useSidebarStore();
 
   const { removeElement } = useElementsStore();
 
