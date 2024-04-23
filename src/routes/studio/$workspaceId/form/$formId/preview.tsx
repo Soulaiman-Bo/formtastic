@@ -12,7 +12,7 @@ export const Route = createFileRoute(
 });
 
 function Playground() {
-  const { elements } = useElementsStore();
+  const { elements, order } = useElementsStore();
 
   const { formId, workspaceId } = Route.useParams();
   return (
@@ -62,19 +62,24 @@ function Playground() {
         </div>
       </div>
 
-      
       <div className="p-2 flex w-full pt-12 sm:pb-4 justify-between items-center bg-gray-100 flex-col overflow-y-scroll relative h-screen-minus-58">
         <div className=" w-full pb-6 sm:pb-20 bg-white justify-center shadow-sm max-w-[650px] flex flex-col sm:rounded-lg mt-0 relative py-4 px-2 z-10">
+          {order.map((clientId) => {
+            const element = elements.find((el) => el.client_id === clientId);
 
-          {elements.map((element) => {
-            const PreviewComponent =
-              FormElements[element.type].previewComponent;
+            if (element) {
+              const PreviewComponent =
+                FormElements[element.type].previewComponent;
 
-            return (
-              <div className="px-10 flex flex-col text-background w-full gap-6 p-4">
-                <PreviewComponent key={element.client_id} elementInstance={element} />
-              </div>
-            );
+              return (
+                <div className="px-10 flex flex-col text-background w-full gap-6 p-4">
+                  <PreviewComponent
+                    key={element.client_id}
+                    elementInstance={element}
+                  />
+                </div>
+              );
+            }
           })}
         </div>
       </div>
