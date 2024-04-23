@@ -151,18 +151,59 @@ const useElementsStore = create<ElementsState>((set, get) => ({
   },
 
   updateElement: (id: string, element: FormElementInstance) => {
-    set((state) => {
-      const newElements = [...state.elements];
-      const index = newElements.findIndex((el) => el.client_id === id);
-      if (index !== -1) {
-        newElements[index] = element;
-      }
-      return { elements: newElements };
-    });
+    const previousElements = get().elements;
+    const newElements = [...previousElements];
+
+    const index = newElements.findIndex((el) => el.client_id === id);
+
+    if (index !== -1) {
+      newElements[index] = element;
+    }
+
+    set({ elements: newElements });
+
+    debounceSaveElement(element, previousElements);
+
+
+    // const saveElement = async () => {
+    //   try {
+    //     await PrivateAPI.put<FormSchemaResponse>(
+    //       `/form/${element.form_id}/formschema/${element._id}`,
+    //       element
+    //     );
+
+    //     set({ isLoading: false });
+    //   } catch (error) {
+    //     console.error(error);
+    //     set({ elements: previousElements });
+    //   }
+    // };
   },
 
   setAllElements: (elements: FormElementInstance[]) => set({ elements }),
 }));
+
+
+let saveTimeout;
+
+function debounceSaveElement(element, previousElements) {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(() => {
+    saveElement(element, previousElements);
+  }, 1500); // Debounce interval: 500ms
+}
+
+async function saveElement(element, previousElements) {
+  try {
+    useElementsStore.setState({ isLoading: true });
+    await PrivateAPI.put(`/form/${element.form_id}/formschema/${element._id}`, element);
+    useElementsStore.setState({ isLoading: false });
+  } catch (error) {
+    console.error(error);
+    useElementsStore.setState({ elements: previousElements, isLoading: false });
+  }
+}
+
 
 // const useElementsStore = (queryClient: QueryClient | undefined) => {
 

@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Eye } from "lucide-react";
 import { FiUploadCloud } from "react-icons/fi";
 import useElementsStore from "@/context/useElementsStore";
+import PublishButtonForm from "./PublishButtonForm";
 
 const PlaygroundHeader = ({
   workspaceId,
@@ -68,11 +69,7 @@ const PlaygroundHeader = ({
             </div>
 
             <div className="inline-block z-[14]">
-              <div>
-                <Button className="h-[34px] px-3 !min-w-[100px]">
-                  Publish
-                </Button>
-              </div>
+              <PublishButtonForm />
             </div>
           </div>
         </div>

@@ -61,6 +61,8 @@ function Playground() {
           </div>
         </div>
       </div>
+
+      
       <div className="p-2 flex w-full pt-12 sm:pb-4 justify-between items-center bg-gray-100 flex-col overflow-y-scroll relative h-screen-minus-58">
         <div className=" w-full pb-6 sm:pb-20 bg-white justify-center shadow-sm max-w-[650px] flex flex-col sm:rounded-lg mt-0 relative py-4 px-2 z-10">
 

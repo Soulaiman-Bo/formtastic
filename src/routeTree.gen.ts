@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as ErrorImport } from './routes/error'
 import { Route as IndexImport } from './routes/index'
+import { Route as FormFormIdImport } from './routes/form/$formId'
 import { Route as DashboardWorkspaceIdImport } from './routes/dashboard/$workspaceId'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthResetpasswordImport } from './routes/auth/resetpassword'
@@ -30,6 +31,11 @@ const ErrorRoute = ErrorImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const FormFormIdRoute = FormFormIdImport.update({
+  path: '/form/$formId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -102,6 +108,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardWorkspaceIdImport
       parentRoute: typeof rootRoute
     }
+    '/form/$formId': {
+      preLoaderRoute: typeof FormFormIdImport
+      parentRoute: typeof rootRoute
+    }
     '/studio/$workspaceId/form/$formId/preview': {
       preLoaderRoute: typeof StudioWorkspaceIdFormFormIdPreviewImport
       parentRoute: typeof rootRoute
@@ -123,6 +133,7 @@ export const routeTree = rootRoute.addChildren([
   AuthResetpasswordRoute,
   AuthSignupRoute,
   DashboardWorkspaceIdRoute,
+  FormFormIdRoute,
   StudioWorkspaceIdFormFormIdPreviewRoute,
   StudioWorkspaceIdFormFormIdIndexRoute,
 ])
