@@ -29,10 +29,10 @@ import useCreatFormApi from "@/hooks/useCreatFormApi";
 
 interface props {
   closeParent: () => void;
+  isOpen: boolean;
 }
 
-
-const BlankFormButton: React.FC<props> = ({ closeParent }) => {
+const BlankFormButton: React.FC<props> = ({ closeParent, isOpen }) => {
   const { workspaceId } = useParams({ strict: false }) as {
     workspaceId: string;
   };
@@ -56,7 +56,7 @@ const BlankFormButton: React.FC<props> = ({ closeParent }) => {
   }
 
   return (
-    <Dialog>
+    <Dialog open={isOpen}>
       <DialogTrigger asChild>
         <button className="flex flex-col items-center rounded-lg bg-white shadow-md p-4 w-full   align-middle justify-center cursor-pointer hover:scale-105  hover:border-[3px] border border-gray-200 relative !h-[250px]">
           <div className="justify-center flex !h-full items-center">

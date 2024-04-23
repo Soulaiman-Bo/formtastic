@@ -16,9 +16,10 @@ type FormResponse = {
   _id: string;
 };
 
-
-
-const createFormApi = async ( values: createFormSchemaType, workspaceId: string ): Promise<FormResponse> => {
+const createFormApi = async (
+  values: createFormSchemaType,
+  workspaceId: string
+): Promise<FormResponse> => {
   try {
     const response = await PrivateAPI.post<FormResponse>(
       `/workspaces/${workspaceId}/forms`,
@@ -36,9 +37,7 @@ const createFormApi = async ( values: createFormSchemaType, workspaceId: string 
   }
 };
 
-
-
-function useCreatFormApi(workspaceId: string, closeParent: () => void) {
+function useCreatFormApi(workspaceId: string, closeDialog: () => void) {
   const queryClient = useQueryClient();
 
   return useMutation<FormResponse, Error, createFormSchemaType>({
@@ -51,7 +50,7 @@ function useCreatFormApi(workspaceId: string, closeParent: () => void) {
         (old: FormResponse[] | undefined) => [...old!, data]
       );
 
-      closeParent();
+      closeDialog()
 
       toast({
         title: "Success",
