@@ -7,6 +7,7 @@ const DraggableCardElement = ({
 }: {
   formElement: FormElement;
 }) => {
+
   const { icon: Icon, label, color } = formElement.draggableCardComponent;
 
   const draggable = useDraggable({
@@ -23,7 +24,7 @@ const DraggableCardElement = ({
       {...draggable.listeners}
       {...draggable.attributes}
       className={cn(
-        "bg-white px-[3px flex flex-col pt-3 pb-[6px] items-center rounded-md cursor-grab  shadow hover:shadow-md hover:shadow-gray-400/50",
+        "bg-white p-3 flex gap-3  items-center rounded-md cursor-grab  shadow hover:shadow-md hover:shadow-gray-400/50",
         draggable.isDragging && `ring-2 ring-${color}`
       )}
     >
@@ -32,7 +33,7 @@ const DraggableCardElement = ({
       >
         <Icon className="h-5 w-5" />
       </div>
-      <div className="text-gray-700 text-xs font-medium flex justify-center mt-2 text-center leading-3 h-6 items-center">
+      <div className="text-gray-700 text-xs font-medium flex justify-center text-center leading-3 h-6 items-center">
         {label}
       </div>
     </div>

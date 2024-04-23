@@ -54,8 +54,9 @@ const LeftSidebar = () => {
           Frequently used
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 mt-3 gap-y-4">
+        <div className="flex flex-col ap-2 mt-3 gap-y-4">
           <DraggableCardElement formElement={FormElements.ShortAnswerField} />
+          <DraggableCardElement formElement={FormElements.CheckBoxField} />
         </div>
       </div>
     </div>

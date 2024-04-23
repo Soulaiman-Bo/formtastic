@@ -164,11 +164,11 @@ const PlaygroundMain = () => {
       onClick={() => {
         setSelectedElement(null);
       }}
-      className="p-5 pb-3 w-full"
+      className=" p-5 pb-3 w-full"
     >
       <div
         ref={droppable.setNodeRef}
-        className=" p-2 flex  w-full pt-12  sm:pb-4 justify-between items-center bg-gray-100 h-full  flex-col rounded-xl overflow-hidden relative border-[0.5px] border-gray-300 shadow-lg"
+        className=" p-2 flex  w-full pt-12  sm:pb-4 justify-between items-center bg-gray-100 h-full  flex-col rounded-xl overflow-y-scroll relative border-[0.5px] border-gray-300 shadow-lg"
       >
         <div
           className={cn(
