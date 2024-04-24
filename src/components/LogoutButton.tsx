@@ -8,7 +8,7 @@ const LogoutButton = () => {
     logout();
   };
 
-  return <Button onClick={handleLogout}>Log out </Button>;
+  return <Button variant="secondary" className="mb-5 w-full" onClick={handleLogout}>Log out </Button>;
 };
 
 export default LogoutButton;

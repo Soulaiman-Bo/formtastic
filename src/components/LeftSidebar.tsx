@@ -1,7 +1,6 @@
 import { FormElements } from "./FormElements";
 import DraggableCardElement from "./DraggableCardElement";
 import { Input } from "./ui/input";
-// import { AlignCenter } from "lucide-react";
 
 const LeftSidebar = () => {
   return (
@@ -62,6 +61,8 @@ const LeftSidebar = () => {
 
         </div>
       </div>
+
+     
     </div>
   );
 };

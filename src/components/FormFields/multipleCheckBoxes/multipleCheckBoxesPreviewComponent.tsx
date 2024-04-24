@@ -1,41 +1,65 @@
 import { FormElementInstance } from "@/components/FormElements";
-import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const properties = {
-  question: "Write you Question here.",
+  label: "Write you Question here.",
   helperText: "Helper Text",
   required: false,
-  placeHolder: "Answer Here ...",
-}; // these meant to go in main component
+  options: [
+    {
+      id: "44",
+      value: "Option 1",
+    },
+    {
+      id: "55",
+      value: "Option 2",
+    },
+    {
+      id: "66",
+      value: "Option 3",
+    },
+    {
+      id: "88",
+      value: "Option 4",
+    },
+  ],
+};
 
 type CustomInstance = FormElementInstance & {
   properties: typeof properties;
 };
 
-const MultipleCheckBoxesPreviewComponent = ({
+export default function MultipleCheckBoxesPreviewComponent({
   elementInstance,
 }: {
   elementInstance: FormElementInstance;
-}) => {
+}) {
   const element = elementInstance as CustomInstance;
-  const { helperText, placeHolder, question, required } =
-    element.properties;
+  const { helperText, options, label, required } = element.properties;
 
   return (
     <div className=" w-full">
-      <p className="font-inter text-base font-medium  text-gray-600 my-2">
-        {question}
-        {required && <span className="text-red-500">*</span>}
+      <p className="font-inter text-base font-medium  text-gray-600 mt-2 mb-3">
+        {label}
+        {required && <span className="text-red-500 ml-2">*</span>}
       </p>
-      <Input
-        className="shadow-sm block w-full mb-3 rounded-md placeholder:text-gray-300 border-gray-300 text-base text-gray-500 font-medium h-11"
-        placeholder={placeHolder}
-      />
+
+      <div className="flex flex-col gap-1">
+        {options.map((elm) => {
+          return (
+            <div key={elm.id} className="flex gap-3 items-center">
+              <Checkbox />
+              <span className="text-gray-600 font-inter border-gray-300 text-base">
+                {elm.value}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
       {helperText && (
-        <p className="pl-3 text-gray-400 text-sm mb-2">{helperText}</p>
+        <p className=" text-gray-400 text-sm my-2">{helperText}</p>
       )}
     </div>
   );
-};
-
-export default MultipleCheckBoxesPreviewComponent;
+}

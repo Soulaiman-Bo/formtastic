@@ -176,10 +176,6 @@ const useElementsStore = create<ElementsState>((set, get) => ({
     set({ elements: newElements, order: newOrder, isLoading: true });
 
     const removeTheElement = async () => {
-      const elementToDelete = previousElements.find(
-        (elm) => elm.client_id === id
-      );
-
       if (elementToDelete) {
         try {
           const response = await PrivateAPI.delete(
@@ -197,6 +193,9 @@ const useElementsStore = create<ElementsState>((set, get) => ({
         }
       }
     };
+
+    removeTheElement()
+
 
     
   },

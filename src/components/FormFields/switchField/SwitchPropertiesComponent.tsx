@@ -40,6 +40,12 @@ function SwitchPropertiesComponent({
   const { label, required, defaultValue } = element.properties;
   const { updateElement } = useElementsStore();
 
+
+  useEffect(() => {
+    form.reset(element.properties);
+  }, [element.client_id]);
+
+
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),
     defaultValues: {

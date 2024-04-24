@@ -45,7 +45,8 @@ export default function PropertiesComponent({
 
   useEffect(() => {
     form.reset(element.properties);
-}, [element.properties]);
+  }, [element.client_id]);
+
 
   const { helperText, placeHolder, question, required } = element.properties;
 

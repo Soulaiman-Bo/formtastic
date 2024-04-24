@@ -18,7 +18,7 @@ import { MdOutlineContentCopy } from "react-icons/md";
 
 import { Input } from "./ui/input";
 
-const PublishButtonForm = () => {
+const PublishButtonForm = ({formId}: {formId: string}) => {
   const [dailogOpen, setDailogOpen] = useState<boolean>(false);
 
   const closeArchiveDialog = () => {
@@ -49,22 +49,27 @@ const PublishButtonForm = () => {
         )}
       </Button>
 
-      <FormAchrive open={dailogOpen} close={closeArchiveDialog} />
+      <PublishAlert formId={formId} open={dailogOpen} close={closeArchiveDialog} />
     </div>
   );
 };
 
 export default PublishButtonForm;
 
-function FormAchrive({
-  open,
-  close,
-}: {
-  open: boolean;
-  close: () => void;
-  formId: string;
-}) {
-  // const shareUrl = `${window.location.origin}/form/${formId}`;
+function PublishAlert({open, close, formId}: { open: boolean; close: () => void, formId: string }) {
+   const shareUrl = `${window.location.origin}/form/${formId}`;
+   const [copied, setCopied] = useState(false)
+
+   const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+
+      setCopied(true)
+
+    } catch (err) {
+      console.error('Failed to copy: ', err); 
+    }
+  };
 
   return (
     <AlertDialog open={open} onOpenChange={close}>
@@ -82,16 +87,17 @@ function FormAchrive({
             <div className="flex">
               <div className="flex w-full relative items-center">
                 <div className="relative w-full">
-                  <Input type="text"  />
+                  <Input type="text" value={shareUrl} />
                 </div>
               </div>
               <Button
                 type="button"
+                onClick={copyToClipboard}
                 className="inline-flex items-center px-3 border shadow-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 h-[42px] sm:h-[38px] text-sm border-gray-300 text-gray-100 bg-gray-800 hover:bg-gray-600 focus:!ring-gray-500 focus:ring-0 focus:ring-offset-0 ml-2 whitespace-nowrap"
               >
                 <MdOutlineContentCopy className="mr-2" />
 
-                <span className="max-w-full overflow-hidden">Copy</span>
+                <span className="max-w-full overflow-hidden">{copied ? "Copied!": "Copy"}</span>
               </Button>
             </div>
           </AlertDialogDescription>

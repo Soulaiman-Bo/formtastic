@@ -78,7 +78,8 @@ function MultipleCheckBoxesPropertiesComponent({
 
   useEffect(() => {
     form.reset(element.properties);
-}, [element.properties]);
+  }, [element.client_id]);
+
 
   useEffect(() => {
     const subscription = form.watch(() => {

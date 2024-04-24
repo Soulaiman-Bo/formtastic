@@ -18,7 +18,7 @@ const CheckBoxPreviewComponent = ({
   elementInstance: FormElementInstance;
 }) => {
   const element = elementInstance as CustomInstance;
-  const { helperText, label, required, defaultValue } = element.properties;
+  const { helperText, label, required } = element.properties;
 
   const id = `checkbox-${element.client_id}`;
 
@@ -26,7 +26,6 @@ const CheckBoxPreviewComponent = ({
     <>
       <div className="flex items-center gap-3 space-x-2">
         <Checkbox
-          checked={defaultValue}
           className="h-5 w-5 border-gray-300"
           id={id}
         />

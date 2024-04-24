@@ -69,7 +69,7 @@ const PlaygroundHeader = ({
             </div>
 
             <div className="inline-block z-[14]">
-              <PublishButtonForm />
+              <PublishButtonForm formId={formId} />
             </div>
           </div>
         </div>

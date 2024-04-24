@@ -1,5 +1,5 @@
 import { FormElementInstance, FormElements } from "@/components/FormElements";
-import useFormSchema from "@/hooks/useFormSchema";
+import { Button } from "@/components/ui/button";
 import { PrivateAPI } from "@/lib/HttpClient";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -58,8 +58,8 @@ function Form() {
 
   if (data) {
     return (
-      <div className="p-2 flex w-full pt-12 sm:pb-4 justify-between items-center bg-gray-100 flex-col overflow-y-scroll relative h-screen-minus-58">
-        <div className=" w-full pb-6 sm:pb-20 bg-white justify-center shadow-sm max-w-[650px] flex flex-col sm:rounded-lg mt-0 relative py-4 px-2 z-10">
+      <div className=" p-2 flex w-full pt-12 sm:pb-4 justify-between items-center bg-gray-100 flex-col overflow-y-scroll relative min-h-screen">
+        <div className=" w-full  bg-white justify-center shadow-sm max-w-[650px] flex flex-col sm:rounded-lg mt-0 relative py-4 px-2 z-10">
           {data.formfields_order.map((clientId) => {
             const element = data.formschema.find(
               (el) => el.client_id === clientId
@@ -79,6 +79,11 @@ function Form() {
               );
             }
           })}
+          <div className=" px-9 p-4">
+            <Button variant="default">
+              Submit
+            </Button>
+          </div>
         </div>
       </div>
     );

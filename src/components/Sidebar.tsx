@@ -1,5 +1,6 @@
 import SidebarNavItems from "./SidebarNavItems";
 import NewWorkspaceButton from "./NewWorkspaceButton";
+import LogoutButton from "./LogoutButton";
 
 const Sidebar = () => {
   return (
@@ -23,6 +24,9 @@ const Sidebar = () => {
 
           <SidebarNavItems />
         </nav>
+        <div className="p-3">
+          <LogoutButton />
+        </div>
       </div>
     </div>
   );

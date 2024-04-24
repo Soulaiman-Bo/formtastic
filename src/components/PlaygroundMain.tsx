@@ -12,16 +12,14 @@ import useSelectedElementStore from "@/context/useSelectedElementStore";
 import useElementsStore from "@/context/useElementsStore";
 import useSidebarStore from "@/context/useSidebarStore";
 import { useParams } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
+import { Button } from "./ui/button";
 
 const PlaygroundMain = () => {
-  const queryClient = useQueryClient();
-
   const { elements, addElement, removeElemtnFromOrder, order, updateOrder } =
     useElementsStore();
 
-    console.log("initial Main page formSchem: ", elements);
-    console.log("initial Main page order: ", order);
+  console.log("initial Main page formSchem: ", elements);
+  console.log("initial Main page order: ", order);
 
   const { setSelectedElement } = useSelectedElementStore();
 
@@ -170,7 +168,7 @@ const PlaygroundMain = () => {
       >
         <div
           className={cn(
-            " w-full pb-6 sm:pb-20 bg-white justify-center max-w-[650px] flex flex-col sm:rounded-lg mt-0 relative py-4 px-2 z-10",
+            " w-full bg-white justify-center max-w-[650px] flex flex-col sm:rounded-lg mt-0 relative py-4 px-2 z-10",
             droppable.isOver && "ring-2 ring-gray-300"
           )}
         >
@@ -183,19 +181,24 @@ const PlaygroundMain = () => {
           )}
 
           {elements.length > 0 && (
-            <div className=" px-10 flex flex-col text-background w-full gap-6 p-4">
-              {order.map((clientId) => {
-                const element = elements.find(
-                  (el) => el.client_id === clientId
-                );
-                return element ? (
-                  <PlaygroundElementWrapper
-                    key={element.client_id}
-                    element={element}
-                  />
-                ) : null;
-              })}
-            </div>
+            <>
+              <div className=" px-10 flex flex-col text-background w-full gap-6 p-4">
+                {order.map((clientId) => {
+                  const element = elements.find(
+                    (el) => el.client_id === clientId
+                  );
+                  return element ? (
+                    <PlaygroundElementWrapper
+                      key={element.client_id}
+                      element={element}
+                    />
+                  ) : null;
+                })}
+              </div>
+              <div className=" px-9 p-4">
+                <Button variant="default">Submit</Button>
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -326,7 +329,7 @@ function PlaygroundElementWrapper({
       {selectedElement?.client_id === element.client_id && (
         <div className=" absolute top-1/2 right-full -translate-x-2 -translate-y-1/2 flex flex-col gap-3 w-fit">
           <button
-          className="bg-red-500 w-fit p-2 rounded-full flex items-center justify-center"
+            className="bg-red-500 w-fit p-2 rounded-full flex items-center justify-center"
             onClick={(e) => {
               e.stopPropagation();
               removeElement(element.client_id);
@@ -336,7 +339,7 @@ function PlaygroundElementWrapper({
           </button>
 
           <button
-          className="bg-gray-200 w-fit p-2 rounded-full flex items-center justify-center"
+            className="bg-gray-200 w-fit p-2 rounded-full flex items-center justify-center"
             onClick={(e) => {
               e.stopPropagation();
               setisSideBarOpen(true);

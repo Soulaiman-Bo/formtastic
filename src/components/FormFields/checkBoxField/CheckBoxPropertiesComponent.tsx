@@ -39,13 +39,13 @@ function CheckBoxPropertiesComponent({
   elementInstance: FormElementInstance;
 }) {
   const element = elementInstance as CustomInstance;
-  const { helperText, label, required, defaultValue } = element.properties;
+  const { helperText, label, required, defaultValue  } = element.properties;
   const { updateElement } = useElementsStore();
 
 
   useEffect(() => {
     form.reset(element.properties);
-  }, [element.properties]);
+  }, [element.client_id]);
 
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),
