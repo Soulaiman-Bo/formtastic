@@ -77,12 +77,15 @@ function MultipleCheckBoxesPropertiesComponent({
   });
 
   useEffect(() => {
+    form.reset(element.properties);
+}, [element.properties]);
+
+  useEffect(() => {
     const subscription = form.watch(() => {
       form.handleSubmit(applyChanges)();
     });
-    form.reset(element.properties);
     return () => subscription.unsubscribe();
-  }, [form]);
+  }, [form, element]);
 
   function applyChanges(values: propertiesFormSchemaType) {
     const { label, helperText, required, options } = values;

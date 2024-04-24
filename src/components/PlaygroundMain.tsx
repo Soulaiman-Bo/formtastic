@@ -20,17 +20,15 @@ const PlaygroundMain = () => {
   const { elements, addElement, removeElemtnFromOrder, order, updateOrder } =
     useElementsStore();
 
+    console.log("initial Main page formSchem: ", elements);
+    console.log("initial Main page order: ", order);
+
   const { setSelectedElement } = useSelectedElementStore();
 
   const { formId, workspaceId } = useParams({ strict: false }) as {
     workspaceId: string;
     formId: string;
   };
-
-  // const invalidate = () => {
-  //   queryClient.invalidateQueries({ queryKey: [`formSchema-${formId}`] });
-  //   queryClient.invalidateQueries({ queryKey: [`forms-${workspaceId}`] });
-  // };
 
   const droppable = useDroppable({
     id: "playground-drop-area",
@@ -139,7 +137,7 @@ const PlaygroundMain = () => {
 
         const activeElement = { ...elements[activeElementIndex] };
 
-        removeElemtnFromOrder(activeId)
+        removeElemtnFromOrder(activeId);
 
         let indexForNewElement = overElementIndex;
 
@@ -250,10 +248,6 @@ function PlaygroundElementWrapper({
 
   const { setisSideBarOpen } = useSidebarStore();
 
-  // const queryClient = useQueryClient();
-  // const create = useElementsStore(queryClient);
-  // const {removeElement,} = create()
-
   const { removeElement } = useElementsStore();
 
   const { setSelectedElement, selectedElement } = useSelectedElementStore();
@@ -284,8 +278,6 @@ function PlaygroundElementWrapper({
       isPlaygroundElement: true,
     },
   });
-
-  // if (draggable.isDragging) return null;
 
   const MainComponent = FormElements[element.type].mainComponent;
 
@@ -332,23 +324,25 @@ function PlaygroundElementWrapper({
       )}
 
       {selectedElement?.client_id === element.client_id && (
-        <div className="absolut flex gap-3 ring-2 w-fit">
+        <div className=" absolute top-1/2 right-full -translate-x-2 -translate-y-1/2 flex flex-col gap-3 w-fit">
           <button
+          className="bg-red-500 w-fit p-2 rounded-full flex items-center justify-center"
             onClick={(e) => {
               e.stopPropagation();
               removeElement(element.client_id);
             }}
           >
-            <Trash color="#555" />
+            <Trash className="h-4 w-4" color="#fff" />
           </button>
 
           <button
+          className="bg-gray-200 w-fit p-2 rounded-full flex items-center justify-center"
             onClick={(e) => {
               e.stopPropagation();
               setisSideBarOpen(true);
             }}
           >
-            <Settings color="#555" />
+            <Settings className="h-4 w-4" color="#555" />
           </button>
         </div>
       )}

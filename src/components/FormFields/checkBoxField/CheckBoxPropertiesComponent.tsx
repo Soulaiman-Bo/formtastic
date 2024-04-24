@@ -42,6 +42,11 @@ function CheckBoxPropertiesComponent({
   const { helperText, label, required, defaultValue } = element.properties;
   const { updateElement } = useElementsStore();
 
+
+  useEffect(() => {
+    form.reset(element.properties);
+  }, [element.properties]);
+
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),
     defaultValues: {
@@ -56,9 +61,10 @@ function CheckBoxPropertiesComponent({
     const subscription = form.watch(() => {
       form.handleSubmit(applyChanges)();
     });
-    form.reset(element.properties);
+
     return () => subscription.unsubscribe();
-  }, [form]);
+  }, [form, element]);
+
 
   function applyChanges(values: propertiesFormSchemaType) {
     const { label, helperText, required, defaultValue } = values;

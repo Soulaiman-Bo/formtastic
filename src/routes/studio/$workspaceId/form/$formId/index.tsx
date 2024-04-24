@@ -4,6 +4,8 @@ import { DndContext, MouseSensor, useSensor, useSensors } from "@dnd-kit/core";
 import DragOverLayWrapper from "@/components/DragOverLayWrapper";
 import Main from "@/components/Main";
 import useFormSchema from "@/hooks/useFormSchema";
+import useElementsStore from "@/context/useElementsStore";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/studio/$workspaceId/form/$formId/")({
   component: Playground,
@@ -11,6 +13,11 @@ export const Route = createFileRoute("/studio/$workspaceId/form/$formId/")({
 
 function Playground() {
   const { formId, workspaceId } = Route.useParams();
+  const { setOrder, setAllElements } = useElementsStore();
+
+  useEffect(() => {
+    setOrder([]), setAllElements([]);
+  }, []);
 
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
@@ -18,11 +25,7 @@ function Playground() {
     },
   });
 
-
-
   const { isLoading } = useFormSchema(formId, workspaceId);
-
-  
 
   const sensors = useSensors(mouseSensor);
 
@@ -37,7 +40,7 @@ function Playground() {
         <DndContext sensors={sensors}>
           <div className="flex justify-center w-full h-full flex-col items-center">
             <div className="flex w-full h-full justify-center">
-              {isLoading ? <p>Loading....</p> : <Main  />}
+              {isLoading ? <p>Loading....</p> : <Main />}
             </div>
           </div>
           <DragOverLayWrapper />

@@ -75,6 +75,8 @@ const useElementsStore = create<ElementsState>((set, get) => ({
 
     debounce(() => {
       const saveElement = async () => {
+        console.log("insert into DB: formSchemas: ", element);
+        console.log("insert into DB: order: ", newOrder);
         try {
           const elem = {
             ...element,
@@ -155,12 +157,48 @@ const useElementsStore = create<ElementsState>((set, get) => ({
   },
 
   removeElement: (id: string) => {
-    const elements = get().elements.filter(
+    const previousElements = get().elements;
+    const previousOrders = get().order;
+
+    const newElements = previousElements.filter(
       (element) => element.client_id !== id
     );
-    const order = get().order.filter((clientId) => clientId !== id);
 
-    set({ elements, order });
+    const newOrder = previousOrders.filter((clientId) => clientId !== id);
+
+    const elementToDelete = previousElements.find(
+      (elm) => elm.client_id === id
+    );
+
+    console.log({elementToDelete});
+
+
+    set({ elements: newElements, order: newOrder, isLoading: true });
+
+    const removeTheElement = async () => {
+      const elementToDelete = previousElements.find(
+        (elm) => elm.client_id === id
+      );
+
+      if (elementToDelete) {
+        try {
+          const response = await PrivateAPI.delete(
+            `/form/${elementToDelete.form_id}/formschema/${elementToDelete._id}`
+          );
+
+          if (response.status === 201) {
+            set({ isLoading: false });
+          }
+
+          set({ isLoading: false });
+        } catch (error) {
+          console.error(error);
+          set({ elements: previousElements, order: previousOrders });
+        }
+      }
+    };
+
+    
   },
 
   updateElement: (id: string, element: FormElementInstance) => {
@@ -173,25 +211,9 @@ const useElementsStore = create<ElementsState>((set, get) => ({
       newElements[index] = element;
     }
 
-    console.log({ newElements });
-
     set({ elements: newElements });
 
     debounceSaveElement(element, previousElements);
-
-    // const saveElement = async () => {
-    //   try {
-    //     await PrivateAPI.put<FormSchemaResponse>(
-    //       `/form/${element.form_id}/formschema/${element._id}`,
-    //       element
-    //     );
-
-    //     set({ isLoading: false });
-    //   } catch (error) {
-    //     console.error(error);
-    //     set({ elements: previousElements });
-    //   }
-    // };
   },
 
   setAllElements: (elements: FormElementInstance[]) => set({ elements }),

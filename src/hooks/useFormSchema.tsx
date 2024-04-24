@@ -1,6 +1,4 @@
-import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { PrivateAPI } from "@/lib/HttpClient";
-import { FormElementInstance } from "@/components/FormElements";
 import { useEffect, useState } from "react";
 import useElementsStore from "@/context/useElementsStore";
 import axios from "axios";
@@ -30,8 +28,9 @@ const useFormSchema = (formId: string, workspaceId: string) => {
       try {
         setIsLoading(true);
 
-        const formSchemaRequest = PrivateAPI.get(`/form/${formId}/formschema`);
-        const formsRequest = PrivateAPI.get(`workspaces/${workspaceId}/forms`);
+        const formSchemaRequest = PrivateAPI.get(`/form/${formId}/formschema`); // form schema
+        const formsRequest = PrivateAPI.get(`workspaces/${workspaceId}/forms/${formId}`); // forms
+
         const [formSchemaResponse, formsResponse] = await axios.all([
           formSchemaRequest,
           formsRequest,
@@ -50,13 +49,19 @@ const useFormSchema = (formId: string, workspaceId: string) => {
     fetchData();
   }, [formId, workspaceId]);
 
+
   useEffect(() => {
     if (data.formSchema && data.forms) {
-      console.log(data.formSchema);
-      console.log(data.forms[0].formfields_order);
+
+      console.log("formSchemas Data from DB: ", data.formSchema);
+      console.log("order Data from DB: ", data.forms.formfields_order);
+
       setAllElements(data.formSchema);
-      if (data.forms[0].formfields_order) {
-        setOrder(data.forms[0].formfields_order);
+
+
+      // error here 
+      if (data.forms.formfields_order) {
+        setOrder(data.forms.formfields_order);
       }
     }
   }, [data.formSchema, data.forms, setAllElements, setOrder]);

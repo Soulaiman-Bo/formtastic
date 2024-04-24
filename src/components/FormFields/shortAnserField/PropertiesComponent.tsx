@@ -40,9 +40,17 @@ export default function PropertiesComponent({
 }) {
   const element = elementInstance as CustomInstance;
 
-  const { helperText, placeHolder, question, required } =
-    element.properties;
+
+  console.log({ element });
+
+  useEffect(() => {
+    form.reset(element.properties);
+}, [element.properties]);
+
+  const { helperText, placeHolder, question, required } = element.properties;
+
   const { updateElement } = useElementsStore();
+  
 
   const form = useForm<propertiesFormSchemaType>({
     resolver: zodResolver(propertiesSchema),
@@ -54,23 +62,16 @@ export default function PropertiesComponent({
     },
   });
 
-//   const values = form.watch();
-
-  console.log("properties component rendered");
-  
+  //   const values = form.watch();
 
   useEffect(() => {
     const subscription = form.watch(() => {
       form.handleSubmit(applyChanges)();
     });
 
-    form.reset(element.properties);
-
-
     return () => subscription.unsubscribe();
 
-
-  }, [form]);
+  }, [form, element]);
 
   function applyChanges(values: propertiesFormSchemaType) {
     const { question, helperText, placeHolder, required } = values;
@@ -91,7 +92,7 @@ export default function PropertiesComponent({
         <p className="font-inter font-semibold text-slate-500">Basic</p>
 
         <FormProvider {...form}>
-          <form >
+          <form>
             <div className="my-4 flex flex-col gap-8">
               <FormField
                 control={form.control}

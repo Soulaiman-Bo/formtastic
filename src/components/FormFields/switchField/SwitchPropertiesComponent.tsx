@@ -15,7 +15,6 @@ import { z } from "zod";
 
 const propertiesSchema = z.object({
   label: z.string().min(2).max(50),
-  helperText: z.string().max(200),
   required: z.boolean().default(false),
   defaultValue: z.boolean().default(false),
 });
@@ -32,7 +31,7 @@ const properties = {
   defaultValue: true,
 };
 
-function CheckBoxPropertiesComponent({
+function SwitchPropertiesComponent({
   elementInstance,
 }: {
   elementInstance: FormElementInstance;
@@ -59,6 +58,8 @@ function CheckBoxPropertiesComponent({
   }, [form]);
 
   function applyChanges(values: propertiesFormSchemaType) {
+    console.log("dfdf");
+    
     const { label, required, defaultValue } = values;
     updateElement(element.client_id, {
       ...element,
@@ -148,4 +149,4 @@ function CheckBoxPropertiesComponent({
   );
 }
 
-export default CheckBoxPropertiesComponent;
+export default SwitchPropertiesComponent;
