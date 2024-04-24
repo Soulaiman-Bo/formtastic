@@ -35,6 +35,7 @@ interface ElementsState {
 type FormSchemaResponse = {
   form_id: string;
   type: string;
+  client_id: string;
   properties: Record<string, any>;
   updated_at: string;
   created_at: string;
@@ -81,10 +82,22 @@ const useElementsStore = create<ElementsState>((set, get) => ({
           };
           console.log("kjdhkj");
 
-          await PrivateAPI.post<FormSchemaResponse>(
+          const response = await PrivateAPI.post<FormElementInstance>(
             `/form/${formId}/formschema`,
             elem
           );
+
+          if (response.status === 201) {
+            set((state) => ({
+              elements: state.elements.map((item) =>
+                item.client_id === response.data.client_id
+                  ? response.data
+                  : item
+              ),
+            }));
+
+            console.log(response.data);
+          }
 
           set({ isLoading: false });
 
@@ -160,10 +173,11 @@ const useElementsStore = create<ElementsState>((set, get) => ({
       newElements[index] = element;
     }
 
+    console.log({ newElements });
+
     set({ elements: newElements });
 
     debounceSaveElement(element, previousElements);
-
 
     // const saveElement = async () => {
     //   try {
@@ -183,7 +197,6 @@ const useElementsStore = create<ElementsState>((set, get) => ({
   setAllElements: (elements: FormElementInstance[]) => set({ elements }),
 }));
 
-
 let saveTimeout;
 
 function debounceSaveElement(element, previousElements) {
@@ -194,16 +207,20 @@ function debounceSaveElement(element, previousElements) {
 }
 
 async function saveElement(element, previousElements) {
+  console.log({ element });
+
   try {
     useElementsStore.setState({ isLoading: true });
-    await PrivateAPI.put(`/form/${element.form_id}/formschema/${element._id}`, element);
+    await PrivateAPI.put(
+      `/form/${element.form_id}/formschema/${element._id}`,
+      element
+    );
     useElementsStore.setState({ isLoading: false });
   } catch (error) {
     console.error(error);
     useElementsStore.setState({ elements: previousElements, isLoading: false });
   }
 }
-
 
 // const useElementsStore = (queryClient: QueryClient | undefined) => {
 

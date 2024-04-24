@@ -14,11 +14,7 @@ type CustomInstance = FormElementInstance & {
 };
 
 
-export default function MainComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
+export default function MainComponent({elementInstance}: {elementInstance: FormElementInstance}) {
   const element = elementInstance as CustomInstance;
   const { helperText, placeHolder, question, required } =
     element.properties;
@@ -27,7 +23,7 @@ export default function MainComponent({
     <div className=" w-full">
       <p className="font-inter text-base font-medium  text-gray-600 my-2">
         {question}
-        {required && <span className="text-red-500">*</span>}
+        {required && <span className="text-red-500 ml-2">*</span>}
       </p>
       <Input
         className="shadow-sm block w-full mb-3 rounded-md placeholder:text-gray-300 border-gray-300 text-base text-gray-500 font-medium h-11"

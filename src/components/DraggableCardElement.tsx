@@ -7,7 +7,6 @@ const DraggableCardElement = ({
 }: {
   formElement: FormElement;
 }) => {
-
   const { icon: Icon, label, color } = formElement.draggableCardComponent;
 
   const draggable = useDraggable({
@@ -50,7 +49,7 @@ export const DraggableCardElementGhost = ({
   const { icon: Icon, label, color } = formElement.draggableCardComponent;
 
   return (
-    <div className="bg-white px-[3px flex flex-col pt-3 pb-[6px] items-center rounded-md cursor-grab  shadow hover:shadow-md hover:shadow-gray-400/50">
+    <div className="bg-white  p-3 flex gap-3 items-center rounded-md cursor-grab  shadow hover:shadow-md hover:shadow-gray-400/50">
       <div
         className={`p-1  border-${color}  text-${color} rounded bg-gray-50 border-[0.5px]`}
       >

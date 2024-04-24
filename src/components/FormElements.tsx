@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CheckBoxFieldFormElement } from "./FormFields/checkBox/CheckBoxField";
+import { CheckBoxFieldFormElement } from "./FormFields/checkBoxField/CheckBoxField";
+import { MultipleCheckBoxesFieldFormElement } from "./FormFields/multipleCheckBoxes/multipleCheckBoxesField";
 import { ShortAnswerFieldFormElement } from "./FormFields/shortAnserField/ShortAnswerField";
 import { SwitchFieldFormElement } from "./FormFields/switchField/SwitchField";
 
-export type ElementsType = "ShortAnswerField" | "CheckBoxField" | "SwitchField";
+export type ElementsType = "ShortAnswerField" | "CheckBoxField" | "SwitchField" | "MultipleCheckBoxes";
 
 export type FormElement = {
   type: ElementsType;
@@ -38,7 +39,8 @@ type FormElementsType = {
 export const FormElements: FormElementsType = {
   ShortAnswerField: ShortAnswerFieldFormElement,
   CheckBoxField: CheckBoxFieldFormElement,
-  SwitchField: SwitchFieldFormElement
+  SwitchField: SwitchFieldFormElement,
+  MultipleCheckBoxes: MultipleCheckBoxesFieldFormElement
 };
 
 // FormElements is the object that contains all Form fields
